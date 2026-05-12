@@ -21,6 +21,30 @@ type StoredCalculation = {
   result: DeadlineCalculationResult | null;
 };
 
+function loadStoredCalculation(): StoredCalculation | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StoredCalculation;
+    if (
+      typeof parsed.startDate !== "string" ||
+      typeof parsed.ruleId !== "string" ||
+      typeof parsed.includeHolidays !== "boolean"
+    ) {
+      return null;
+    }
+    return {
+      startDate: parsed.startDate,
+      ruleId: parsed.ruleId,
+      includeHolidays: parsed.includeHolidays,
+      result: parsed.result ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 const SAMPLE_INPUT = {
   startDate: "1404-01-10",
   ruleId: "tajdid-nazar-khahi",
@@ -28,42 +52,24 @@ const SAMPLE_INPUT = {
 } as const;
 
 export function DeadlineForm() {
-  const [startDate, setStartDate] = useState("");
-  const [ruleId, setRuleId] = useState("");
-  const [includeHolidays, setIncludeHolidays] = useState(true);
+  const initialStored = useMemo(() => loadStoredCalculation(), []);
+
+  const [startDate, setStartDate] = useState(
+    () => initialStored?.startDate ?? "",
+  );
+  const [ruleId, setRuleId] = useState(() => initialStored?.ruleId ?? "");
+  const [includeHolidays, setIncludeHolidays] = useState(
+    () => initialStored?.includeHolidays ?? true,
+  );
   const [errors, setErrors] = useState<string[]>([]);
-  const [result, setResult] = useState<DeadlineCalculationResult | null>(null);
-  const [todayJalali, setTodayJalali] = useState<string>("");
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [result, setResult] = useState<DeadlineCalculationResult | null>(
+    () => initialStored?.result ?? null,
+  );
 
   const rulesList = useMemo(() => [...deadlineRules], []);
+  const todayJalali = useMemo(() => jalaliTodayFromLocalDate(), []);
 
   useEffect(() => {
-    const today = jalaliTodayFromLocalDate();
-    setTodayJalali(today);
-
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        setIsHydrated(true);
-        return;
-      }
-      const parsed = JSON.parse(raw) as StoredCalculation;
-      if (typeof parsed.startDate === "string") setStartDate(parsed.startDate);
-      if (typeof parsed.ruleId === "string") setRuleId(parsed.ruleId);
-      if (typeof parsed.includeHolidays === "boolean") {
-        setIncludeHolidays(parsed.includeHolidays);
-      }
-      if (parsed.result) setResult(parsed.result);
-    } catch {
-      // نادیده گرفتن خطاهای localStorage یا JSON
-    } finally {
-      setIsHydrated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isHydrated) return;
     const payload: StoredCalculation = {
       startDate,
       ruleId,
@@ -71,7 +77,7 @@ export function DeadlineForm() {
       result,
     };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [startDate, ruleId, includeHolidays, result, isHydrated]);
+  }, [startDate, ruleId, includeHolidays, result]);
 
   const runCalculation = useCallback(
     (inputStartDate: string, inputRuleId: string, inputIncludeHolidays: boolean) => {
