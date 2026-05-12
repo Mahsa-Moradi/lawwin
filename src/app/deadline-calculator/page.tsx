@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DeadlineForm } from "@/components/deadline/DeadlineForm";
+import { DeadlineFormClient } from "./DeadlineFormClient";
 
 export const metadata: Metadata = {
   title: "محاسبه موعد قانونی",
@@ -53,7 +53,7 @@ export default function DeadlineCalculatorPage() {
       </header>
 
       <div className="mx-auto max-w-3xl">
-        <DeadlineForm />
+        <DeadlineFormClient />
       </div>
 
       <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
