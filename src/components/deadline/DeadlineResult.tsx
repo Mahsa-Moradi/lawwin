@@ -1,29 +1,43 @@
 import type { DeadlineCalculationResult, Holiday } from "@/types/deadline";
+import { CopyResultButton } from "./CopyResultButton";
+import { DeadlineStatusBadge } from "./DeadlineStatusBadge";
 
 type DeadlineResultProps = {
   result: DeadlineCalculationResult;
   holidays: readonly Holiday[];
 };
 
-function statusLabelFa(
-  status: NonNullable<DeadlineCalculationResult["status"]>,
+function buildCopyText(
+  result: DeadlineCalculationResult,
+  holidays: readonly Holiday[],
 ): string {
-  switch (status) {
-    case "safe":
-      return "فرصت کافی";
-    case "warning":
-      return "موعد نزدیک است";
-    case "danger":
-      return "خیلی نزدیک به موعد";
-    case "expired":
-      return "موعد گذشته است";
-    default:
-      return status;
+  const holidayMap = new Map(holidays.map((h) => [h.id, h]));
+  const affectedLines = result.affectedHolidayIds.map((id) => {
+    const h = holidayMap.get(id);
+    return h ? `${h.jalaliDate} - ${h.title}` : id;
+  });
+
+  const lines = [
+    "نتیجه محاسبه موعد",
+    `مهلت اولیه: ${result.initialDeadlineJalali ?? "-"}`,
+    `مهلت نهایی: ${result.finalDeadlineJalali}`,
+    `روز باقی‌مانده: ${result.remainingDays ?? "-"}`,
+    `وضعیت: ${result.status ?? "-"}`,
+    "",
+    "توضیح:",
+    result.explanation,
+  ];
+
+  if (affectedLines.length > 0) {
+    lines.push("", "تعطیلات مؤثر:", ...affectedLines);
   }
+
+  return lines.join("\n");
 }
 
 export function DeadlineResult({ result, holidays }: DeadlineResultProps) {
   const holidayMap = new Map(holidays.map((h) => [h.id, h]));
+  const copyText = buildCopyText(result, holidays);
 
   return (
     <section
@@ -36,6 +50,9 @@ export function DeadlineResult({ result, holidays }: DeadlineResultProps) {
       >
         نتیجهٔ محاسبه
       </h2>
+      <div className="mt-3">
+        <CopyResultButton textToCopy={copyText} />
+      </div>
 
       <dl className="mt-6 space-y-4 text-sm">
         <div className="flex flex-col gap-1 border-b border-zinc-100 pb-4 sm:flex-row sm:justify-between">
@@ -59,7 +76,7 @@ export function DeadlineResult({ result, holidays }: DeadlineResultProps) {
                 {result.remainingDays}
               </span>
               <span className="mx-2 text-zinc-400">·</span>
-              <span>{statusLabelFa(result.status)}</span>
+              <DeadlineStatusBadge status={result.status} />
             </dd>
           </div>
         ) : null}

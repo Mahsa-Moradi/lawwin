@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { deadlineRules, getDeadlineRuleById } from "@/data/deadlineRules";
 import { holidays } from "@/data/holidays";
 import { calculateDeadline } from "@/lib/deadline/calculateDeadline";
@@ -12,21 +12,72 @@ import {
 import type { DeadlineCalculationResult } from "@/types/deadline";
 import { DeadlineResult } from "./DeadlineResult";
 
+const STORAGE_KEY = "lawwin:deadline:lastCalculation:v1";
+
+type StoredCalculation = {
+  startDate: string;
+  ruleId: string;
+  includeHolidays: boolean;
+  result: DeadlineCalculationResult | null;
+};
+
+const SAMPLE_INPUT = {
+  startDate: "1404-01-10",
+  ruleId: "tajdid-nazar-khahi",
+  includeHolidays: true,
+} as const;
+
 export function DeadlineForm() {
   const [startDate, setStartDate] = useState("");
   const [ruleId, setRuleId] = useState("");
   const [includeHolidays, setIncludeHolidays] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
   const [result, setResult] = useState<DeadlineCalculationResult | null>(null);
+  const [todayJalali, setTodayJalali] = useState<string>("");
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const rulesList = useMemo(() => [...deadlineRules], []);
 
-  const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const nextErrors: string[] = [];
+  useEffect(() => {
+    const today = jalaliTodayFromLocalDate();
+    setTodayJalali(today);
 
-      const trimmedStart = startDate.trim();
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        setIsHydrated(true);
+        return;
+      }
+      const parsed = JSON.parse(raw) as StoredCalculation;
+      if (typeof parsed.startDate === "string") setStartDate(parsed.startDate);
+      if (typeof parsed.ruleId === "string") setRuleId(parsed.ruleId);
+      if (typeof parsed.includeHolidays === "boolean") {
+        setIncludeHolidays(parsed.includeHolidays);
+      }
+      if (parsed.result) setResult(parsed.result);
+    } catch {
+      // نادیده گرفتن خطاهای localStorage یا JSON
+    } finally {
+      setIsHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    const payload: StoredCalculation = {
+      startDate,
+      ruleId,
+      includeHolidays,
+      result,
+    };
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }, [startDate, ruleId, includeHolidays, result, isHydrated]);
+
+  const runCalculation = useCallback(
+    (inputStartDate: string, inputRuleId: string, inputIncludeHolidays: boolean) => {
+      const nextErrors: string[] = [];
+      const trimmedStart = inputStartDate.trim();
+
       if (!trimmedStart) {
         nextErrors.push("تاریخ شروع را وارد کنید.");
       } else if (!isValidJalaliDateString(trimmedStart)) {
@@ -35,7 +86,7 @@ export function DeadlineForm() {
         );
       }
 
-      if (!ruleId) {
+      if (!inputRuleId) {
         nextErrors.push("نوع موعد را انتخاب کنید.");
       }
 
@@ -45,7 +96,7 @@ export function DeadlineForm() {
         return;
       }
 
-      const rule = getDeadlineRuleById(ruleId);
+      const rule = getDeadlineRuleById(inputRuleId);
       if (!rule) {
         setErrors(["نوع موعد یافت نشد."]);
         setResult(null);
@@ -57,9 +108,10 @@ export function DeadlineForm() {
           startDateJalali: trimmedStart,
           rule,
           holidays,
-          includeHolidays,
+          includeHolidays: inputIncludeHolidays,
           referenceDateJalali: jalaliTodayFromLocalDate(),
         });
+        setErrors([]);
         setResult(out);
       } catch (err) {
         setResult(null);
@@ -68,8 +120,35 @@ export function DeadlineForm() {
         setErrors([msg]);
       }
     },
-    [startDate, ruleId, includeHolidays],
+    [],
   );
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      runCalculation(startDate, ruleId, includeHolidays);
+    },
+    [startDate, ruleId, includeHolidays, runCalculation],
+  );
+
+  const handleReset = useCallback(() => {
+    setStartDate("");
+    setRuleId("");
+    setIncludeHolidays(true);
+    setErrors([]);
+    setResult(null);
+  }, []);
+
+  const handleSample = useCallback(() => {
+    setStartDate(SAMPLE_INPUT.startDate);
+    setRuleId(SAMPLE_INPUT.ruleId);
+    setIncludeHolidays(SAMPLE_INPUT.includeHolidays);
+    runCalculation(
+      SAMPLE_INPUT.startDate,
+      SAMPLE_INPUT.ruleId,
+      SAMPLE_INPUT.includeHolidays,
+    );
+  }, [runCalculation]);
 
   return (
     <div className="mt-8">
@@ -78,6 +157,13 @@ export function DeadlineForm() {
         className="space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm"
         noValidate
       >
+        <div className="rounded-lg bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+          تاریخ امروز (شمسی):{" "}
+          <span className="font-mono tabular-nums" dir="ltr">
+            {todayJalali || "-"}
+          </span>
+        </div>
+
         <div>
           <label htmlFor="start-date" className="block text-sm font-medium text-zinc-800">
             تاریخ شروع مهلت (شمسی)
@@ -146,12 +232,28 @@ export function DeadlineForm() {
           </div>
         ) : null}
 
-        <button
-          type="submit"
-          className="rounded-xl bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-        >
-          محاسبه
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="submit"
+            className="rounded-xl bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
+          >
+            محاسبه
+          </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
+          >
+            محاسبه مجدد
+          </button>
+          <button
+            type="button"
+            onClick={handleSample}
+            className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
+          >
+            نمونه تستی
+          </button>
+        </div>
       </form>
 
       {result ? <DeadlineResult result={result} holidays={holidays} /> : null}
