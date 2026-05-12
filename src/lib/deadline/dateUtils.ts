@@ -10,7 +10,13 @@
  * - محدودهٔ سال مطابق `jalaali-js` / تقویم رسمی (حدود -۶۱ تا ۳۱۷۷ شمسی).
  */
 
-import { d2j, isValidJalaaliDate, j2d, jalaaliMonthLength } from "jalaali-js";
+import {
+  d2j,
+  isValidJalaaliDate,
+  j2d,
+  jalaaliMonthLength,
+  toJalaali,
+} from "jalaali-js";
 
 const JALALI_DATE_REGEX = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -80,6 +86,18 @@ export function diffJalaliCalendarDays(
     throw new Error("تاریخ شمسی نامعتبر برای محاسبهٔ اختلاف روز.");
   }
   return j2d(pt.year, pt.month, pt.day) - j2d(pf.year, pf.month, pf.day);
+}
+
+/**
+ * تاریخ شمسی «امروز» بر اساس زمان محلی مرورگر/زمان‌سرور (برای remainingDays در UI).
+ * محاسبهٔ موعد همچنان فقط با رشتهٔ شمسی کار می‌کند.
+ */
+export function jalaliTodayFromLocalDate(date: Date = new Date()): string {
+  const gy = date.getFullYear();
+  const gm = date.getMonth() + 1;
+  const gd = date.getDate();
+  const { jy, jm, jd } = toJalaali(gy, gm, gd);
+  return formatJalaliDate(jy, jm, jd);
 }
 
 export function addDaysToJalali(jalaliDate: string, days: number): string {
