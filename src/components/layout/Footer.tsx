@@ -25,6 +25,30 @@ export function Footer() {
                   محاسبه موعد
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/articles"
+                  className="text-zinc-700 underline-offset-2 hover:text-zinc-900 hover:underline"
+                >
+                  مقالات
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-zinc-700 underline-offset-2 hover:text-zinc-900 hover:underline"
+                >
+                  درباره
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-zinc-700 underline-offset-2 hover:text-zinc-900 hover:underline"
+                >
+                  تماس
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

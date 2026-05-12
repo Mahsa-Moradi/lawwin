@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
       <header className="border-b border-zinc-200 pb-8">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
           تماس با ما
         </h1>
-        <p className="mt-3 text-pretty text-zinc-600 leading-relaxed">
+        <p className="mt-3 max-w-3xl text-pretty text-zinc-600 leading-7">
           برای مشاوره و پیگیری، می‌توانید از راه‌های زیر اقدام کنید. فرم تماس در
           این نسخه صرفاً برای نمایش است و ارسال پیام هنوز فعال نشده است.
         </p>
@@ -35,7 +35,7 @@ export default function ContactPage() {
         </div>
       </header>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2">
+      <section className="mx-auto mt-8 grid max-w-3xl gap-4 sm:grid-cols-2">
         <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
           <h2 className="text-base font-semibold text-zinc-900">تلفن</h2>
           <p className="mt-2 text-sm text-zinc-600">
@@ -60,7 +60,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="mx-auto mt-8 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
         <h2 className="text-base font-semibold text-zinc-900">فرم تماس</h2>
         <p className="mt-2 text-sm text-zinc-600">
           ارسال فرم در این نسخه فعال نیست. این بخش فقط برای تکمیل ساختار MVP است.
@@ -112,9 +112,9 @@ export default function ContactPage() {
         </form>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-50 p-6">
+      <section className="mx-auto mt-8 max-w-3xl rounded-2xl border border-zinc-200 bg-zinc-50 p-6">
         <h2 className="text-base font-semibold text-zinc-900">سلب مسئولیت</h2>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+        <p className="mt-2 text-sm leading-7 text-zinc-700">
           اطلاعات و ابزارهای این وب‌سایت صرفاً راهنما هستند و جایگزین مشاورهٔ حقوقی
           تخصصی نیستند. مسئولیت استفاده از نتایج بر عهدهٔ کاربر است.
         </p>

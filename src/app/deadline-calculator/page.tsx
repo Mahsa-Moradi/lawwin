@@ -29,12 +29,12 @@ const faqs = [
 
 export default function DeadlineCalculatorPage() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
       <header className="border-b border-zinc-200 pb-8">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
           محاسبه موعد قانونی
         </h1>
-        <p className="mt-3 max-w-2xl text-pretty text-zinc-600 leading-relaxed">
+        <p className="mt-3 max-w-3xl text-pretty text-zinc-600 leading-7">
           تاریخ شروع مهلت را به شمسی وارد کنید، نوع موعد را انتخاب کنید و در صورت
           نیاز تعطیلات رسمی را در نظر بگیرید. خروجی شامل مهلت اولیه، مهلت نهایی و
           توضیح متنی است. این ابزار صرفاً راهنماست و جایگزین مشاورهٔ حقوقی نیست.
@@ -52,9 +52,11 @@ export default function DeadlineCalculatorPage() {
         </div>
       </header>
 
-      <DeadlineForm />
+      <div className="mx-auto max-w-3xl">
+        <DeadlineForm />
+      </div>
 
-      <section className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">
           سوالات پرتکرار
         </h2>

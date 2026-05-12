@@ -35,7 +35,7 @@ export default function ArticlesPage() {
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
           مقالات
         </h1>
-        <p className="mt-3 max-w-2xl text-pretty text-zinc-600 leading-relaxed">
+        <p className="mt-3 max-w-3xl text-pretty text-zinc-600 leading-7">
           این بخش فعلاً شامل کارت‌های نمونه برای ساختار محتواست. در نسخه‌های بعدی
           می‌توان برای هر مقاله صفحهٔ جداگانه ساخت.
         </p>
