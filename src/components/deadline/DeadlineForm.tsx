@@ -18,6 +18,7 @@ import {
 } from "@/lib/deadline/dateUtils";
 import type { DeadlineCalculationResult } from "@/types/deadline";
 import { DeadlineResult } from "./DeadlineResult";
+import { JalaliDatePickerInput } from "@/components/ui/JalaliDatePickerInput";
 
 const STORAGE_KEY = "lawwin:deadline:lastCalculation:v2";
 
@@ -278,17 +279,14 @@ export function DeadlineForm() {
           <p className="mt-1 text-xs text-zinc-500">
             فرمت: YYYY-MM-DD با ارقام لاتین، مثلاً 1405-03-04
           </p>
-          <input
+          <JalaliDatePickerInput
             id="start-date"
             name="startDate"
-            type="text"
-            inputMode="numeric"
-            autoComplete="off"
-            placeholder="1405-03-04"
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="mt-2 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 py-2 font-mono text-sm text-zinc-900 tabular-nums outline-none ring-zinc-900 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
-            dir="ltr"
+            onChange={setStartDate}
+            placeholder="1405-03-04"
+            className="mt-2"
+            inputClassName="w-full max-w-md rounded-lg border border-zinc-300 bg-white px-10 py-2 font-mono text-sm text-zinc-900 tabular-nums outline-none ring-zinc-900 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
           />
         </div>
 
