@@ -32,7 +32,10 @@ export type DeadlineCategory = {
   label: string;
 };
 
-/** تعطیل رسمی — `year` برای بارگذاری سالانهٔ بعدی آماده است. */
+/**
+ * تعطیل رسمی — هر رکورد در فایل سالانهٔ `src/data/holidays/iran-YYYY.ts` نگهداری می‌شود.
+ * `year` باید با سال فایل و پیشوند `jalaliDate` هم‌خوان باشد.
+ */
 export type Holiday = {
   id: string;
   jalaliDate: string;

@@ -10,7 +10,7 @@ import {
   getDeadlineRuleById,
   getDeadlineRulesByCategory,
 } from "@/data/deadlineRules";
-import { holidays } from "@/data/holidays";
+import { getHolidaysForCalculation } from "@/data/holidays";
 import { calculateDeadline } from "@/lib/deadline/calculateDeadline";
 import {
   isValidJalaliDateString,
@@ -154,10 +154,13 @@ export function DeadlineForm() {
       }
 
       try {
+        const holidaysForRun = getHolidaysForCalculation({
+          startDateJalali: trimmedStart,
+        });
         const out = calculateDeadline({
           startDateJalali: trimmedStart,
           rule,
-          holidays,
+          holidays: holidaysForRun,
           includeHolidays: inputIncludeHolidays,
           referenceDateJalali: jalaliTodayFromLocalDate(),
         });
@@ -368,7 +371,14 @@ export function DeadlineForm() {
         </div>
       </form>
 
-      {result ? <DeadlineResult result={result} holidays={holidays} /> : null}
+      {result ? (
+        <DeadlineResult
+          result={result}
+          holidays={getHolidaysForCalculation({
+            startDateJalali: result.startDateJalali,
+          })}
+        />
+      ) : null}
     </div>
   );
 }

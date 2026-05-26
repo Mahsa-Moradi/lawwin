@@ -1,52 +1,18 @@
-import type { Holiday } from "@/types/deadline";
-
 /**
- * نمونهٔ تعطیلات رسمی (شمسی) — برای توسعه و تست UI/منطق بعدی.
- * فهرست واقعی سال را می‌توان بعداً از فایل بزرگ‌تر، API یا دیتابیس بارگذاری کرد.
+ * نقطهٔ ورود عمومی تعطیلات — دادهٔ محلی سالانه (بدون time.ir).
+ * پیاده‌سازی در پوشهٔ `holidays/`.
  */
-export const holidays: readonly Holiday[] = [
-  {
-    id: "1404-nowruz-1",
-    jalaliDate: "1404-01-01",
-    title: "عید نوروز",
-    note: "روز اول سال شمسی (نمونه)",
-    year: 1404,
-  },
-  {
-    id: "1404-nowruz-2",
-    jalaliDate: "1404-01-02",
-    title: "عید نوروز",
-    note: "روز دوم تعطیلات نوروزی (نمونه)",
-    year: 1404,
-  },
-  {
-    id: "1404-islamic-republic",
-    jalaliDate: "1404-01-12",
-    title: "روز جمهوری اسلامی ایران",
-    year: 1404,
-  },
-  {
-    id: "1404-nature-day",
-    jalaliDate: "1404-01-13",
-    title: "سیزده‌به‌در",
-    year: 1404,
-  },
-  {
-    id: "1404-death-imam",
-    jalaliDate: "1404-02-14",
-    title: "رحلت حضرت امام خمینی (ره)",
-    year: 1404,
-  },
-];
+export {
+  holidays,
+  getHolidaysForYear,
+  getHolidaysForYears,
+  getHolidaysForCalculation,
+  getHolidayByJalaliDate,
+  getHolidayYearDataset,
+  getRegisteredHolidayYears,
+  holidayYearDatasets,
+  iran1404,
+  iran1405,
+} from "./holidays/index";
 
-/** تعطیلات یک سال شمسی — برای بارگذاری سالانهٔ بعدی. */
-export function getHolidaysForYear(year: number): readonly Holiday[] {
-  return holidays.filter((h) => h.year === undefined || h.year === year);
-}
-
-/** فیلتر ساده بر اساس تاریخ شمسی — برای لایهٔ محاسبهٔ بعدی. */
-export function getHolidayByJalaliDate(
-  jalaliDate: string,
-): Holiday | undefined {
-  return holidays.find((h) => h.jalaliDate === jalaliDate);
-}
+export type { HolidayYearDataset } from "./holidays/types";
