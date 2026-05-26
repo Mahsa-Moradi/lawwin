@@ -17,7 +17,7 @@ export default function ContactPage() {
         </h1>
         <p className="mt-3 max-w-3xl text-pretty text-zinc-600 leading-7">
           برای مشاوره و پیگیری، می‌توانید از راه‌های زیر اقدام کنید. فرم تماس در
-          این نسخه صرفاً برای نمایش است و ارسال پیام هنوز فعال نشده است.
+          این نسخه برای تست عمومی است و ارسال پیام هنوز فعال نشده است.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <Link
@@ -54,8 +54,12 @@ export default function ContactPage() {
           <p className="mt-2 text-sm text-zinc-600">
             آدرس ایمیل (نمونه):{" "}
             <span className="font-mono text-zinc-900" dir="ltr">
-              example@lawwin.ir
+              {siteConfig.contactEmail}
             </span>
+          </p>
+          <p className="mt-2 text-xs leading-relaxed text-zinc-500">
+            توجه: این اطلاعات فعلاً نمونه است و ممکن است در نسخه‌های بعدی تغییر
+            کند.
           </p>
         </div>
       </section>
@@ -63,7 +67,9 @@ export default function ContactPage() {
       <section className="mx-auto mt-8 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
         <h2 className="text-base font-semibold text-zinc-900">فرم تماس</h2>
         <p className="mt-2 text-sm text-zinc-600">
-          ارسال فرم در این نسخه فعال نیست. این بخش فقط برای تکمیل ساختار MVP است.
+          ارسال فرم در این نسخه{" "}
+          <span className="font-semibold text-zinc-800">فعال نیست</span>. این بخش
+          فقط برای تکمیل ساختار MVP است.
         </p>
 
         <form className="mt-6 space-y-4">

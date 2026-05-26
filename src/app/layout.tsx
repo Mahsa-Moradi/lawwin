@@ -13,11 +13,14 @@ const vazirmatn = Vazirmatn({
 
 export const metadata: Metadata = {
   title: {
-    default: "لاوین — ابزار محاسبه مواعد حقوقی",
+    default: "لاوین — محاسبه‌گر مواعد حقوقی (نسخه آزمایشی)",
     template: "%s | لاوین",
   },
   description:
-    "راهنمای ساده برای محاسبهٔ مواعد قانونی با تقویم شمسی و لحاظ تعطیلات رسمی.",
+    "ابزار فارسی و شمسی‌محور برای محاسبهٔ مواعد قانونی با لحاظ تعطیلات رسمی. (نسخه آزمایشی برای تست عمومی)",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

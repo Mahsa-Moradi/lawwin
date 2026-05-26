@@ -4,9 +4,13 @@ import { useState } from "react";
 
 type CopyResultButtonProps = {
   textToCopy: string;
+  label?: string;
 };
 
-export function CopyResultButton({ textToCopy }: CopyResultButtonProps) {
+export function CopyResultButton({
+  textToCopy,
+  label = "کپی نتیجه",
+}: CopyResultButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -25,7 +29,7 @@ export function CopyResultButton({ textToCopy }: CopyResultButtonProps) {
       onClick={handleCopy}
       className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
     >
-      {copied ? "کپی شد" : "کپی نتیجه"}
+      {copied ? "کپی شد" : label}
     </button>
   );
 }

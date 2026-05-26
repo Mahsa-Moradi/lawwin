@@ -4,6 +4,7 @@ import type {
   DeadlineRule,
   Holiday,
 } from "@/types/deadline";
+import { calculateCivilProcedureDeadline } from "./calculateCivilProcedureDeadline";
 import {
   addDaysToJalali,
   diffJalaliCalendarDays,
@@ -16,10 +17,6 @@ export type CalculateDeadlineParams = {
   rule: DeadlineRule;
   holidays: readonly Holiday[];
   includeHolidays: boolean;
-  /**
-   * تاریخ مرجع شمسی (مثلاً «امروز») برای محاسبهٔ remainingDays و status.
-   * اگر نباشد، آن دو فیلد در خروجی حذف می‌شوند.
-   */
   referenceDateJalali?: string;
 };
 
@@ -42,14 +39,7 @@ function uniqueHolidayIdsInOrder(skipped: readonly Holiday[]): string[] {
   return ids;
 }
 
-/**
- * محاسبهٔ موعد بر اساس **تقویم شمسی** (قرارداد داده: `YYYY-MM-DD` با ارقام لاتین).
- * ۱) تاریخ شروع + rule.days
- * ۲) اگر includeHolidays و روز آخر تعطیل است، تا اولین روز غیرتعطیل جلو می‌رود.
- *
- * خالص؛ بدون localStorage و بدون وابستگی به مرورگر.
- */
-export function calculateDeadline(
+function calculateSimpleDeadline(
   params: CalculateDeadlineParams,
 ): DeadlineCalculationResult {
   const {
@@ -60,7 +50,9 @@ export function calculateDeadline(
     referenceDateJalali,
   } = params;
 
-  if (!Number.isFinite(rule.days) || !Number.isInteger(rule.days) || rule.days < 0) {
+  const days = rule.durations[0] ?? rule.days;
+
+  if (!Number.isFinite(days) || !Number.isInteger(days) || days < 0) {
     throw new Error("تعداد روز قانون موعد باید عدد صحیح نامنفی باشد.");
   }
 
@@ -80,7 +72,7 @@ export function calculateDeadline(
     );
   }
 
-  const initialDeadlineJalali = addDaysToJalali(startDateJalali, rule.days);
+  const initialDeadlineJalali = addDaysToJalali(startDateJalali, days);
 
   let finalDeadlineJalali = initialDeadlineJalali;
   let affectedHolidayIds: string[] = [];
@@ -96,10 +88,8 @@ export function calculateDeadline(
   }
 
   const lines: string[] = [];
-  lines.push(
-    `تاریخ شروع (ابلاغ/شروع مهلت): ${startDateJalali}`,
-  );
-  lines.push(`نوع موعد: ${rule.title} (${rule.days} روز)`);
+  lines.push(`تاریخ شروع (ابلاغ/شروع مهلت): ${startDateJalali}`);
+  lines.push(`نوع موعد: ${rule.title} (${days} روز)`);
   lines.push(`مهلت اولیه پس از افزودن روزها: ${initialDeadlineJalali}`);
   if (includeHolidays) {
     if (affectedHolidayIds.length > 0) {
@@ -121,7 +111,9 @@ export function calculateDeadline(
     ruleId: rule.id,
     startDateJalali,
     includeHolidays,
+    durationLabel: rule.durationLabel,
     initialDeadlineJalali,
+    finalActionDateJalali: finalDeadlineJalali,
     finalDeadlineJalali,
     explanation: lines.join("\n"),
     affectedHolidayIds,
@@ -140,4 +132,23 @@ export function calculateDeadline(
   }
 
   return base;
+}
+
+/**
+ * محاسبهٔ موعد — مسیر ساده (نمونه عمومی) یا آیین دادرسی مدنی.
+ */
+export function calculateDeadline(
+  params: CalculateDeadlineParams,
+): DeadlineCalculationResult {
+  if (params.rule.calculationMode === "civil_procedure") {
+    return calculateCivilProcedureDeadline({
+      notificationDateJalali: params.startDateJalali,
+      rule: params.rule,
+      holidays: params.holidays,
+      adjustFinalWorkingDay: params.includeHolidays,
+      referenceDateJalali: params.referenceDateJalali,
+    });
+  }
+
+  return calculateSimpleDeadline(params);
 }

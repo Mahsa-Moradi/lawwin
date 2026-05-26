@@ -9,9 +9,10 @@ export function Footer() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-md space-y-2 text-sm leading-relaxed text-zinc-600">
             <p className="font-medium text-zinc-800">سلب مسئولیت</p>
-            <p>
-              این وب‌سایت صرفاً ابزار راهنما است و جایگزین مشاورهٔ تخصصی حقوقی
-              نیست. برای تصمیم‌گیری نهایی با وکیل مشورت کنید.
+            <p className="leading-7">
+              این وب‌سایت نسخهٔ آزمایشی است و صرفاً ابزار راهنما محسوب می‌شود. نتایج
+              ممکن است دقیق نباشد و جایگزین مشاورهٔ تخصصی حقوقی نیست. برای تصمیم‌گیری
+              نهایی با وکیل مشورت کنید.
             </p>
           </div>
           <div className="text-sm text-zinc-600">

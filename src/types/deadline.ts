@@ -1,61 +1,84 @@
 /**
  * تایپ‌های مشترک موعد و تعطیلات.
- * ورودی/خروجی محاسبهٔ بعدی این‌جا تعریف می‌شود؛ منطق محاسبه در فاز جداگانه است.
  */
 
-/** یک قانون/نوع موعد قابل انتخاب توسط کاربر (قابل جایگزینی با API). */
+export type DeadlineCalculationMode = "simple" | "civil_procedure";
+
+/** یک قانون/نوع موعد قابل انتخاب توسط کاربر. */
 export type DeadlineRule = {
   id: string;
+  categoryId: string;
   title: string;
-  /** تعداد روز مهلت (طبق قانون انتخاب‌شده؛ نمونه‌ها آموزشی‌اند). */
+  /** مدت به روز تقویمی؛ تک‌مرحله یا چندمرحله (مثلاً ۲۰ + ۲۰). */
+  durations: readonly number[];
+  /** برچسب نمایشی مدت، مثلاً «۲۰ روز» یا «۲۰ + ۲۰ روز». */
+  durationLabel: string;
+  /**
+   * تعداد روز (سازگاری با منطق سادهٔ قدیمی).
+   * برای قوانین جدید برابر `durations[0]` است.
+   */
   days: number;
   description: string;
+  sourceTitle?: string;
+  sourceArticle?: string;
+  /** توضیح مبدأ شمارش، مثلاً «از روز بعد از ابلاغ». */
+  startsFrom?: string;
+  needsLegalReview: boolean;
+  calculationMode: DeadlineCalculationMode;
 };
 
-/** تعطیل رسمی (قابل جایگزینی با API/دیتابیس). */
+export type DeadlineCategory = {
+  id: string;
+  label: string;
+};
+
+/** تعطیل رسمی — `year` برای بارگذاری سالانهٔ بعدی آماده است. */
 export type Holiday = {
   id: string;
-  /**
-   * تاریخ شمسی به شکل `YYYY-MM-DD` (ارقام لاتین برای یکنواختی در کد).
-   * مثال: `1404-01-01` = فروردین ۱
-   */
   jalaliDate: string;
   title: string;
-  /** توضیح اختیاری برای ویرایش‌کنندهٔ انسانی */
   note?: string;
+  year?: number;
 };
 
-/** ورودی تابع محاسبهٔ موعد در فازهای بعدی. */
 export type DeadlineCalculationInput = {
-  /** تاریخ شروع مهلت (مثلاً ابلاغ) به شکل شمسی `YYYY-MM-DD`. */
   startDateJalali: string;
-  /** باید با `DeadlineRule.id` در `deadlineRules` هم‌خوان باشد. */
   ruleId: string;
-  /** آیا روزهای تعطیل رسمی در محاسبه لحاظ شوند. */
   includeHolidays: boolean;
 };
 
-/** وضعیت نمایشی موعد (در UI بعداً استفاده می‌شود). */
 export type DeadlineCalculationStatus =
   | "safe"
   | "warning"
   | "danger"
   | "expired";
 
-/** خروجی محاسبهٔ موعد؛ فعلاً فقط قرارداد داده است، محاسبه‌ای انجام نشده. */
+export type FinalDayMoveReason =
+  | "تعطیل رسمی"
+  | "پنجشنبه"
+  | "جمعه";
+
+/** خروجی محاسبهٔ موعد. */
 export type DeadlineCalculationResult = {
   ruleId: string;
   startDateJalali: string;
   includeHolidays: boolean;
-  /** مهلت اولیه قبل از جابه‌جایی به روز کاری (در فاز محاسبه پر می‌شود). */
+  /** برچسب مدت از قانون انتخاب‌شده. */
+  durationLabel?: string;
+  /** اولین روز شمارش (روز بعد از ابلاغ در آیین دادرسی). */
+  firstCountedDayJalali?: string;
+  /** پایان دورهٔ شمارش قبل از جابه‌جایی روز آخر. */
   initialDeadlineJalali?: string;
-  /** آخرین روز اقدام پس از اعمال قواعد تعطیل و ... */
+  /** آخرین روز اقدام پس از اعمال قواعد روز کاری. */
+  finalActionDateJalali?: string;
+  /** همان `finalActionDateJalali` برای سازگاری با UI قدیمی. */
   finalDeadlineJalali: string;
-  /** تعداد روز باقی‌مانده تا `finalDeadlineJalali` (نسبت به «امروز» در لایهٔ بالاتر). */
   remainingDays?: number;
   status?: DeadlineCalculationStatus;
-  /** توضیح خط‌به‌خط برای کاربر (فارسی، قابل ویرایش در لایهٔ داده/سرویس). */
   explanation: string;
-  /** شناسهٔ تعطیلاتی که در نتیجه اثر گذاشته‌اند (ارجاع به `Holiday.id`). */
+  /** مراحل توضیحی برای نمایش در «روند محاسبه». */
+  calculationSteps?: readonly string[];
+  movedBecauseOfHolidayOrWeekend?: boolean;
+  finalDayReason?: FinalDayMoveReason;
   affectedHolidayIds: string[];
 };

@@ -2,7 +2,14 @@
 
 import type { FormEvent } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { deadlineRules, getDeadlineRuleById } from "@/data/deadlineRules";
+import {
+  DEADLINE_CATEGORY_CIVIL_PROCEDURE,
+  deadlineCategories,
+} from "@/data/deadlineCategories";
+import {
+  getDeadlineRuleById,
+  getDeadlineRulesByCategory,
+} from "@/data/deadlineRules";
 import { holidays } from "@/data/holidays";
 import { calculateDeadline } from "@/lib/deadline/calculateDeadline";
 import {
@@ -12,10 +19,11 @@ import {
 import type { DeadlineCalculationResult } from "@/types/deadline";
 import { DeadlineResult } from "./DeadlineResult";
 
-const STORAGE_KEY = "lawwin:deadline:lastCalculation:v1";
+const STORAGE_KEY = "lawwin:deadline:lastCalculation:v2";
 
 type StoredCalculation = {
   startDate: string;
+  categoryId: string;
   ruleId: string;
   includeHolidays: boolean;
   result: DeadlineCalculationResult | null;
@@ -29,6 +37,7 @@ function loadStoredCalculation(): StoredCalculation | null {
     const parsed = JSON.parse(raw) as StoredCalculation;
     if (
       typeof parsed.startDate !== "string" ||
+      typeof parsed.categoryId !== "string" ||
       typeof parsed.ruleId !== "string" ||
       typeof parsed.includeHolidays !== "boolean"
     ) {
@@ -36,6 +45,7 @@ function loadStoredCalculation(): StoredCalculation | null {
     }
     return {
       startDate: parsed.startDate,
+      categoryId: parsed.categoryId,
       ruleId: parsed.ruleId,
       includeHolidays: parsed.includeHolidays,
       result: parsed.result ?? null,
@@ -46,8 +56,9 @@ function loadStoredCalculation(): StoredCalculation | null {
 }
 
 const SAMPLE_INPUT = {
-  startDate: "1404-01-10",
-  ruleId: "tajdid-nazar-khahi",
+  startDate: "1405-03-04",
+  categoryId: DEADLINE_CATEGORY_CIVIL_PROCEDURE,
+  ruleId: "cpp-05",
   includeHolidays: true,
 } as const;
 
@@ -56,6 +67,10 @@ export function DeadlineForm() {
 
   const [startDate, setStartDate] = useState(
     () => initialStored?.startDate ?? "",
+  );
+  const [categoryId, setCategoryId] = useState(
+    () =>
+      initialStored?.categoryId ?? DEADLINE_CATEGORY_CIVIL_PROCEDURE,
   );
   const [ruleId, setRuleId] = useState(() => initialStored?.ruleId ?? "");
   const [includeHolidays, setIncludeHolidays] = useState(
@@ -66,34 +81,63 @@ export function DeadlineForm() {
     () => initialStored?.result ?? null,
   );
 
-  const rulesList = useMemo(() => [...deadlineRules], []);
+  const categoriesList = useMemo(() => [...deadlineCategories], []);
   const todayJalali = useMemo(() => jalaliTodayFromLocalDate(), []);
+
+  const rulesForCategory = useMemo(
+    () => getDeadlineRulesByCategory(categoryId),
+    [categoryId],
+  );
+
+  const selectedRule = useMemo(
+    () => (ruleId ? getDeadlineRuleById(ruleId) : undefined),
+    [ruleId],
+  );
+
+  const isCivilCategory =
+    categoryId === DEADLINE_CATEGORY_CIVIL_PROCEDURE;
+
+  useEffect(() => {
+    if (ruleId && !rulesForCategory.some((r) => r.id === ruleId)) {
+      setRuleId(rulesForCategory[0]?.id ?? "");
+      setResult(null);
+    }
+  }, [categoryId, ruleId, rulesForCategory]);
 
   useEffect(() => {
     const payload: StoredCalculation = {
       startDate,
+      categoryId,
       ruleId,
       includeHolidays,
       result,
     };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [startDate, ruleId, includeHolidays, result]);
+  }, [startDate, categoryId, ruleId, includeHolidays, result]);
 
   const runCalculation = useCallback(
-    (inputStartDate: string, inputRuleId: string, inputIncludeHolidays: boolean) => {
+    (
+      inputStartDate: string,
+      inputRuleId: string,
+      inputIncludeHolidays: boolean,
+    ) => {
       const nextErrors: string[] = [];
       const trimmedStart = inputStartDate.trim();
 
       if (!trimmedStart) {
-        nextErrors.push("تاریخ شروع را وارد کنید.");
+        nextErrors.push(
+          isCivilCategory
+            ? "تاریخ ابلاغ را وارد کنید."
+            : "تاریخ شروع را وارد کنید.",
+        );
       } else if (!isValidJalaliDateString(trimmedStart)) {
         nextErrors.push(
-          "تاریخ شروع نامعتبر است. قالب: YYYY-MM-DD با ارقام لاتین (مثلاً 1404-01-15).",
+          "تاریخ نامعتبر است. قالب: YYYY-MM-DD با ارقام لاتین (مثلاً 1405-03-04).",
         );
       }
 
       if (!inputRuleId) {
-        nextErrors.push("نوع موعد را انتخاب کنید.");
+        nextErrors.push("نوع مهلت را انتخاب کنید.");
       }
 
       setErrors(nextErrors);
@@ -104,7 +148,7 @@ export function DeadlineForm() {
 
       const rule = getDeadlineRuleById(inputRuleId);
       if (!rule) {
-        setErrors(["نوع موعد یافت نشد."]);
+        setErrors(["نوع مهلت یافت نشد."]);
         setResult(null);
         return;
       }
@@ -126,7 +170,7 @@ export function DeadlineForm() {
         setErrors([msg]);
       }
     },
-    [],
+    [isCivilCategory],
   );
 
   const handleSubmit = useCallback(
@@ -139,6 +183,7 @@ export function DeadlineForm() {
 
   const handleReset = useCallback(() => {
     setStartDate("");
+    setCategoryId(DEADLINE_CATEGORY_CIVIL_PROCEDURE);
     setRuleId("");
     setIncludeHolidays(true);
     setErrors([]);
@@ -147,6 +192,7 @@ export function DeadlineForm() {
 
   const handleSample = useCallback(() => {
     setStartDate(SAMPLE_INPUT.startDate);
+    setCategoryId(SAMPLE_INPUT.categoryId);
     setRuleId(SAMPLE_INPUT.ruleId);
     setIncludeHolidays(SAMPLE_INPUT.includeHolidays);
     runCalculation(
@@ -156,6 +202,16 @@ export function DeadlineForm() {
     );
   }, [runCalculation]);
 
+  const handleCategoryChange = useCallback(
+    (nextCategoryId: string) => {
+      setCategoryId(nextCategoryId);
+      const nextRules = getDeadlineRulesByCategory(nextCategoryId);
+      setRuleId(nextRules[0]?.id ?? "");
+      setResult(null);
+    },
+    [],
+  );
+
   return (
     <div className="mt-8">
       <form
@@ -163,6 +219,23 @@ export function DeadlineForm() {
         className="space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm"
         noValidate
       >
+        <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950">
+          {isCivilCategory ? (
+            <>
+              در آیین دادرسی مدنی، <strong>روز ابلاغ شمرده نمی‌شود</strong> و
+              شمارش از روز بعد آغاز می‌شود. تعطیلات در میانهٔ مهلت عادی محسوب
+              می‌شوند؛ فقط اگر <strong>روز آخر اقدام</strong> تعطیل رسمی،
+              پنجشنبه یا جمعه باشد، به اولین روز کاری بعد منتقل می‌شود.
+            </>
+          ) : (
+            <>
+              حالت نمونهٔ عمومی: تاریخ شروع به‌علاوهٔ تعداد روز (منطق سادهٔ
+              قبلی). برای قواعد آیین دادرسی، دستهٔ «آیین دادرسی مدنی» را
+              انتخاب کنید.
+            </>
+          )}
+        </div>
+
         <div className="rounded-lg bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
           تاریخ امروز (شمسی):{" "}
           <span className="font-mono tabular-nums" dir="ltr">
@@ -171,11 +244,36 @@ export function DeadlineForm() {
         </div>
 
         <div>
-          <label htmlFor="start-date" className="block text-sm font-medium text-zinc-800">
-            تاریخ شروع مهلت (شمسی)
+          <label
+            htmlFor="category-id"
+            className="block text-sm font-medium text-zinc-800"
+          >
+            دسته‌بندی
+          </label>
+          <select
+            id="category-id"
+            name="categoryId"
+            value={categoryId}
+            onChange={(e) => handleCategoryChange(e.target.value)}
+            className="mt-2 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
+          >
+            {categoriesList.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="start-date"
+            className="block text-sm font-medium text-zinc-800"
+          >
+            {isCivilCategory ? "تاریخ ابلاغ (شمسی)" : "تاریخ شروع مهلت (شمسی)"}
           </label>
           <p className="mt-1 text-xs text-zinc-500">
-            فرمت: YYYY-MM-DD با ارقام لاتین، مثلاً 1404-06-10
+            فرمت: YYYY-MM-DD با ارقام لاتین، مثلاً 1405-03-04
           </p>
           <input
             id="start-date"
@@ -183,7 +281,7 @@ export function DeadlineForm() {
             type="text"
             inputMode="numeric"
             autoComplete="off"
-            placeholder="1404-01-01"
+            placeholder="1405-03-04"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             className="mt-2 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 py-2 font-mono text-sm text-zinc-900 tabular-nums outline-none ring-zinc-900 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
@@ -193,7 +291,7 @@ export function DeadlineForm() {
 
         <div>
           <label htmlFor="rule-id" className="block text-sm font-medium text-zinc-800">
-            نوع موعد
+            نوع مهلت
           </label>
           <select
             id="rule-id"
@@ -203,12 +301,18 @@ export function DeadlineForm() {
             className="mt-2 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
           >
             <option value="">انتخاب کنید…</option>
-            {rulesList.map((r) => (
+            {rulesForCategory.map((r) => (
               <option key={r.id} value={r.id}>
-                {r.title} ({r.days} روز)
+                {r.title} ({r.durationLabel})
               </option>
             ))}
           </select>
+          {selectedRule?.needsLegalReview ? (
+            <p className="mt-2 text-xs text-amber-800">
+              این قانون برای بازبینی حقوقی علامت‌گذاری شده است؛ قبل از اقدام
+              حتماً با متن قانون و وکیل تطبیق دهید.
+            </p>
+          ) : null}
         </div>
 
         <div className="flex items-start gap-3">
@@ -221,7 +325,9 @@ export function DeadlineForm() {
             className="mt-1 size-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900"
           />
           <label htmlFor="include-holidays" className="text-sm text-zinc-800">
-            لحاظ تعطیلات رسمی در روز آخر مهلت (در صورت تعطیل بودن، به اولین روز غیرتعطیل منتقل می‌شود)
+            {isCivilCategory
+              ? "اگر روز آخر اقدام تعطیل رسمی، پنجشنبه یا جمعه باشد، به اولین روز کاری بعد منتقل شود"
+              : "لحاظ تعطیلات رسمی در روز آخر مهلت (در صورت تعطیل بودن، به اولین روز غیرتعطیل منتقل می‌شود)"}
           </label>
         </div>
 

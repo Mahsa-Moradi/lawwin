@@ -8,4 +8,8 @@ export const siteConfig = {
   /** متن نمایشی در UI (می‌توان با فاصله یا خط تیره نوشت) */
   phoneDisplay: "۰۹۰۰ ۰۰۰ ۰۰۰۰",
   siteName: "لاوین",
+  /** ایمیل نمونه (فعلاً اطلاعات تماس واقعی نداریم) */
+  contactEmail: "example@lawwin.ir",
+  /** برای تست عمومی: مشخص می‌کند فرم تماس فعال نیست */
+  contactFormActive: false,
 } as const;

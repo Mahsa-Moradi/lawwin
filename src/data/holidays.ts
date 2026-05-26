@@ -10,29 +10,39 @@ export const holidays: readonly Holiday[] = [
     jalaliDate: "1404-01-01",
     title: "عید نوروز",
     note: "روز اول سال شمسی (نمونه)",
+    year: 1404,
   },
   {
     id: "1404-nowruz-2",
     jalaliDate: "1404-01-02",
     title: "عید نوروز",
     note: "روز دوم تعطیلات نوروزی (نمونه)",
+    year: 1404,
   },
   {
     id: "1404-islamic-republic",
     jalaliDate: "1404-01-12",
     title: "روز جمهوری اسلامی ایران",
+    year: 1404,
   },
   {
     id: "1404-nature-day",
     jalaliDate: "1404-01-13",
     title: "سیزده‌به‌در",
+    year: 1404,
   },
   {
     id: "1404-death-imam",
     jalaliDate: "1404-02-14",
     title: "رحلت حضرت امام خمینی (ره)",
+    year: 1404,
   },
 ];
+
+/** تعطیلات یک سال شمسی — برای بارگذاری سالانهٔ بعدی. */
+export function getHolidaysForYear(year: number): readonly Holiday[] {
+  return holidays.filter((h) => h.year === undefined || h.year === year);
+}
 
 /** فیلتر ساده بر اساس تاریخ شمسی — برای لایهٔ محاسبهٔ بعدی. */
 export function getHolidayByJalaliDate(

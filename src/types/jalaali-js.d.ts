@@ -5,6 +5,11 @@ declare module "jalaali-js" {
     gm: number,
     gd: number,
   ): { jy: number; jm: number; jd: number };
+  export function toGregorian(
+    jy: number,
+    jm: number,
+    jd: number,
+  ): { gy: number; gm: number; gd: number };
   export function j2d(jy: number, jm: number, jd: number): number;
   export function d2j(jdn: number): { jy: number; jm: number; jd: number };
   export function isValidJalaaliDate(
