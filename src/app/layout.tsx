@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
-import { FloatingCallButton } from "@/components/layout/FloatingCallButton";
+import { FloatingSupportWidget } from "@/components/layout/FloatingSupportWidget";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import "./globals.css";
@@ -43,7 +43,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />
-        <FloatingCallButton />
+        <FloatingSupportWidget />
       </body>
     </html>
   );
