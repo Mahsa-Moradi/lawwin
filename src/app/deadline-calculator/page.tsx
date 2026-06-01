@@ -29,7 +29,7 @@ const faqs = [
 
 export default function DeadlineCalculatorPage() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
       <header className="border-b border-zinc-200 pb-8">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
           محاسبه موعد قانونی
@@ -57,11 +57,9 @@ export default function DeadlineCalculatorPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-3xl">
-        <DeadlineFormClient />
-      </div>
+      <DeadlineFormClient />
 
-      <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:max-w-none">
         <h2 className="text-lg font-semibold text-zinc-900">
           سوالات پرتکرار
         </h2>

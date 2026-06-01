@@ -2,9 +2,16 @@
 
 type PrintResultButtonProps = {
   targetId: string;
+  className?: string;
 };
 
-export function PrintResultButton({ targetId }: PrintResultButtonProps) {
+const defaultClassName =
+  "rounded-lg border border-amber-600/40 bg-white px-3 py-2 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700";
+
+export function PrintResultButton({
+  targetId,
+  className,
+}: PrintResultButtonProps) {
   const handlePrint = () => {
     const el = document.getElementById(targetId);
     if (!el) {
@@ -22,7 +29,7 @@ export function PrintResultButton({ targetId }: PrintResultButtonProps) {
     <button
       type="button"
       onClick={handlePrint}
-      className="rounded-lg border border-amber-600/40 bg-white px-3 py-2 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
+      className={`inline-flex items-center ${className ?? defaultClassName}`}
     >
       چاپ
     </button>

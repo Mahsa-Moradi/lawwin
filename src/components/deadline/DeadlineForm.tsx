@@ -195,6 +195,11 @@ export function DeadlineForm() {
     setResult(null);
   }, []);
 
+  const handleRecalculateFocus = useCallback(() => {
+    const el = document.getElementById("deadline-calculator-form");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   const handleSample = useCallback(() => {
     setStartDate(SAMPLE_INPUT.startDate);
     setCategoryId(SAMPLE_INPUT.categoryId);
@@ -217,14 +222,33 @@ export function DeadlineForm() {
     [],
   );
 
+  const hasResult = result !== null;
+  const formClassName = hasResult
+    ? "space-y-5 rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-6"
+    : "space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm";
+
   return (
-    <div className="mt-8">
+    <div
+      className={
+        hasResult
+          ? "mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start"
+          : "mt-8"
+      }
+    >
       <form
+        id="deadline-calculator-form"
         onSubmit={handleSubmit}
-        className="space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm"
+        className={`${formClassName}${hasResult ? " order-2 lg:order-none lg:col-span-4" : ""}`}
         noValidate
       >
-        <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950">
+        {hasResult ? (
+          <p className="text-xs font-medium text-zinc-500">
+            ویرایش ورودی‌ها و محاسبهٔ دوباره
+          </p>
+        ) : null}
+        <div
+          className={`rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950${hasResult ? " text-xs leading-relaxed" : ""}`}
+        >
           {isCivilCategory ? (
             <>
               در آیین دادرسی مدنی، <strong>روز ابلاغ شمرده نمی‌شود</strong> و
@@ -241,7 +265,9 @@ export function DeadlineForm() {
           )}
         </div>
 
-        <div className="rounded-lg bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+        <div
+          className={`rounded-lg bg-zinc-50 px-4 py-3 text-sm text-zinc-700${hasResult ? " hidden sm:block" : ""}`}
+        >
           تاریخ امروز (شمسی):{" "}
           <span className="font-mono tabular-nums" dir="ltr">
             {todayJalali || "-"}
@@ -349,13 +375,15 @@ export function DeadlineForm() {
           >
             محاسبه
           </button>
-          <button
-            type="button"
-            onClick={handleReset}
-            className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
-          >
-            محاسبه مجدد
-          </button>
+          {!hasResult ? (
+            <button
+              type="button"
+              onClick={handleReset}
+              className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
+            >
+              محاسبه مجدد
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={handleSample}
@@ -367,12 +395,19 @@ export function DeadlineForm() {
       </form>
 
       {result ? (
-        <DeadlineResult
-          result={result}
-          holidays={getHolidaysForCalculation({
-            startDateJalali: result.startDateJalali,
-          })}
-        />
+        <div className="order-1 lg:col-span-8">
+          <DeadlineResult
+            result={result}
+            ruleTitle={selectedRule?.title ?? ""}
+            startDateLabel={
+              isCivilCategory ? "تاریخ ابلاغ" : "تاریخ شروع"
+            }
+            onRecalculate={handleRecalculateFocus}
+            holidays={getHolidaysForCalculation({
+              startDateJalali: result.startDateJalali,
+            })}
+          />
+        </div>
       ) : null}
     </div>
   );

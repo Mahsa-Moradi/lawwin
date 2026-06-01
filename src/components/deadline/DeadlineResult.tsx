@@ -1,23 +1,26 @@
 import type { DeadlineCalculationResult, Holiday } from "@/types/deadline";
 import {
-  formatDeadlineDayBeginning,
   formatJalaliLong,
 } from "@/lib/deadline/jalaliDisplay";
-import { CopyResultButton } from "./CopyResultButton";
+import { DeadlineCalculationTimeline } from "./DeadlineCalculationTimeline";
+import { DeadlineResultActions } from "./DeadlineResultActions";
 import { DeadlineResultHero } from "./DeadlineResultHero";
-import { DeadlineStatusBadge } from "./DeadlineStatusBadge";
-import { PrintResultButton } from "./PrintResultButton";
+import { DeadlineResultSummary } from "./DeadlineResultSummary";
 
 export const RESULT_PRINT_ID = "deadline-result-print";
 
 type DeadlineResultProps = {
   result: DeadlineCalculationResult;
   holidays: readonly Holiday[];
+  ruleTitle: string;
+  startDateLabel?: string;
+  onRecalculate: () => void;
 };
 
 function buildCopyText(
   result: DeadlineCalculationResult,
   holidays: readonly Holiday[],
+  ruleTitle: string,
 ): string {
   const holidayMap = new Map(holidays.map((h) => [h.id, h]));
   const affectedLines = result.affectedHolidayIds.map((id) => {
@@ -28,7 +31,11 @@ function buildCopyText(
   const finalJalali =
     result.finalActionDateJalali ?? result.finalDeadlineJalali;
 
-  const lines = ["نتیجه محاسبه موعد", `آخرین مهلت اقدام: ${finalJalali}`];
+  const lines = [
+    "نتیجه محاسبه موعد",
+    `نوع مهلت: ${ruleTitle}`,
+    `آخرین مهلت اقدام: ${finalJalali}`,
+  ];
 
   if (result.durationLabel) {
     lines.push(`مدت: ${result.durationLabel}`);
@@ -39,7 +46,7 @@ function buildCopyText(
     );
   }
   if (result.initialDeadlineJalali) {
-    lines.push(`پایان دوره شمارش: ${result.initialDeadlineJalali}`);
+    lines.push(`پایان مهلت اولیه: ${result.initialDeadlineJalali}`);
   }
   if (result.finalDayReason) {
     lines.push(`دلیل جابه‌جایی: ${result.finalDayReason}`);
@@ -62,89 +69,6 @@ function buildCopyText(
   }
 
   return lines.join("\n");
-}
-
-function DetailChip({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 sm:px-4 sm:py-3">
-      <dt className="text-xs font-medium text-zinc-500">{label}</dt>
-      <dd className="mt-1 text-sm font-semibold text-zinc-900">{value}</dd>
-    </div>
-  );
-}
-
-function CalculationDetails({
-  result,
-  isCivil,
-}: {
-  result: DeadlineCalculationResult;
-  isCivil: boolean;
-}) {
-  const firstDay = result.firstCountedDayJalali
-    ? formatDeadlineDayBeginning(result.firstCountedDayJalali)
-    : null;
-
-  return (
-    <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-      {result.durationLabel ? (
-        <DetailChip label="مدت" value={result.durationLabel} />
-      ) : null}
-      {isCivil && firstDay ? (
-        <DetailChip label="اولین روز مهلت" value={firstDay} />
-      ) : null}
-      {!isCivil && result.initialDeadlineJalali ? (
-        <DetailChip
-          label="مهلت اولیه"
-          value={result.initialDeadlineJalali}
-        />
-      ) : null}
-      {result.remainingDays !== undefined && result.status !== undefined ? (
-        <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 sm:col-span-2 sm:px-4 sm:py-3">
-          <dt className="text-xs font-medium text-zinc-500">وضعیت</dt>
-          <dd className="mt-2">
-            <DeadlineStatusBadge status={result.status} />
-          </dd>
-        </div>
-      ) : null}
-    </dl>
-  );
-}
-
-function CalculationSteps({
-  result,
-}: {
-  result: DeadlineCalculationResult;
-}) {
-  if (result.calculationSteps && result.calculationSteps.length > 0) {
-    return (
-      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-        <div className="border-b border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-semibold text-zinc-800">
-          روند محاسبه
-        </div>
-        <ul className="space-y-0 divide-y divide-zinc-100">
-          {result.calculationSteps.map((step, i) => (
-            <li
-              key={`${i}-${step.slice(0, 24)}`}
-              className="px-4 py-3 text-sm leading-relaxed text-zinc-800"
-            >
-              {step}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  return (
-    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-      <div className="border-b border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-semibold text-zinc-800">
-        توضیح محاسبه
-      </div>
-      <p className="whitespace-pre-line px-4 py-4 text-sm leading-relaxed text-zinc-800">
-        {result.explanation}
-      </p>
-    </div>
-  );
 }
 
 function AffectedHolidays({
@@ -183,43 +107,58 @@ function AffectedHolidays({
   );
 }
 
-export function DeadlineResult({ result, holidays }: DeadlineResultProps) {
-  const copyText = buildCopyText(result, holidays);
-  const isCivil = result.firstCountedDayJalali !== undefined;
+export function DeadlineResult({
+  result,
+  holidays,
+  ruleTitle,
+  startDateLabel,
+  onRecalculate,
+}: DeadlineResultProps) {
+  const copyText = buildCopyText(result, holidays, ruleTitle);
 
   return (
     <section
       id={RESULT_PRINT_ID}
-      className="mt-10 space-y-6 print:shadow-none"
+      className="space-y-6 print:shadow-none"
       aria-labelledby="deadline-result-heading"
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2
-          id="deadline-result-heading"
-          className="text-lg font-semibold text-zinc-900"
-        >
-          نتیجهٔ محاسبه
-        </h2>
-        <div className="flex flex-wrap gap-2 print:hidden">
-          <CopyResultButton textToCopy={copyText} label="کپی" />
-          <PrintResultButton targetId={RESULT_PRINT_ID} />
-        </div>
-      </div>
+      <h2
+        id="deadline-result-heading"
+        className="sr-only"
+      >
+        نتیجهٔ محاسبه
+      </h2>
 
       <DeadlineResultHero result={result} />
 
-      <CalculationDetails result={result} isCivil={isCivil} />
+      <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+        <div className="space-y-4 lg:col-span-7">
+          <DeadlineCalculationTimeline result={result} />
 
-      {result.movedBecauseOfHolidayOrWeekend && result.finalDayReason ? (
-        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
-          تاریخ نهایی به دلیل {result.finalDayReason} به اولین روز کاری بعد
-          منتقل شد.
-        </p>
-      ) : null}
+          {result.movedBecauseOfHolidayOrWeekend && result.finalDayReason ? (
+            <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
+              تاریخ نهایی به دلیل {result.finalDayReason} به اولین روز کاری
+              بعد منتقل شد.
+            </p>
+          ) : null}
 
-      <CalculationSteps result={result} />
+          <AffectedHolidays result={result} holidays={holidays} />
+        </div>
 
-      <AffectedHolidays result={result} holidays={holidays} />
+        <div className="lg:col-span-5">
+          <DeadlineResultActions
+            copyText={copyText}
+            printTargetId={RESULT_PRINT_ID}
+            onRecalculate={onRecalculate}
+          />
+        </div>
+      </div>
+
+      <DeadlineResultSummary
+        ruleTitle={ruleTitle}
+        result={result}
+        startDateLabel={startDateLabel}
+      />
     </section>
   );
 }

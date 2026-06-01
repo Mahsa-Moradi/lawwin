@@ -26,7 +26,7 @@ export function DeadlineResultHero({ result }: DeadlineResultHeroProps) {
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 p-6 text-white shadow-lg ring-1 ring-amber-500/20 sm:p-8 print:bg-white print:text-zinc-900 print:shadow-none print:ring-zinc-300"
+      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-800 p-6 text-white shadow-xl ring-1 ring-amber-500/25 sm:p-10 print:bg-white print:text-zinc-900 print:shadow-none print:ring-zinc-300"
       aria-labelledby="deadline-hero-label"
     >
       <div
@@ -41,13 +41,13 @@ export function DeadlineResultHero({ result }: DeadlineResultHeroProps) {
       <div className="relative text-center">
         <p
           id="deadline-hero-label"
-          className="text-sm font-medium text-amber-200/90 sm:text-base print:text-amber-800"
+          className="text-sm font-semibold tracking-wide text-amber-200/95 sm:text-base print:text-amber-800"
         >
           آخرین مهلت اقدام
         </p>
 
         <p
-          className="mt-3 text-4xl font-bold leading-none tracking-tight tabular-nums sm:mt-4 sm:text-5xl md:text-6xl print:text-zinc-900"
+          className="mt-3 text-4xl font-extrabold leading-none tracking-tight tabular-nums sm:mt-4 sm:text-5xl md:text-[3.5rem] print:text-zinc-900"
           dir="ltr"
           aria-label={`تاریخ ${dateDisplay}`}
         >
