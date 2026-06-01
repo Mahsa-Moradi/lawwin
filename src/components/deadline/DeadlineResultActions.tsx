@@ -54,7 +54,7 @@ export function DeadlineResultActions({
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 sm:p-5 lg:grid-cols-1">
+      <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 sm:p-5">
         <CopyResultButton
           textToCopy={copyText}
           label="کپی نتیجه"
@@ -66,9 +66,9 @@ export function DeadlineResultActions({
         />
         <Button
           type="button"
-          variant="secondary"
+          variant="brandOutline"
           onClick={onRecalculate}
-          className="w-full sm:col-span-2 lg:col-span-1"
+          className="w-full sm:col-span-2"
         >
           محاسبه مجدد
         </Button>

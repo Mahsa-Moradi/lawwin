@@ -2,6 +2,7 @@ import type { DeadlineCalculationResult, Holiday } from "@/types/deadline";
 import {
   formatJalaliLong,
 } from "@/lib/deadline/jalaliDisplay";
+import { calculatorAlertMoveClassName } from "./calculatorStyles";
 import { DeadlineCalculationTimeline } from "./DeadlineCalculationTimeline";
 import { DeadlineResultActions } from "./DeadlineResultActions";
 import { DeadlineResultHero } from "./DeadlineResultHero";
@@ -85,8 +86,10 @@ function AffectedHolidays({
   const holidayMap = new Map(holidays.map((h) => [h.id, h]));
 
   return (
-    <div className="rounded-xl border border-zinc-200/90 bg-zinc-50/80 px-4 py-3.5 text-sm text-zinc-700">
-      <p className="font-medium text-zinc-800">تعطیلات رسمی در مسیر جابه‌جایی</p>
+    <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3.5 text-sm text-lawwin-muted-on-navy">
+      <p className="font-medium text-lawwin-on-navy">
+        تعطیلات رسمی در مسیر جابه‌جایی
+      </p>
       <ul className="mt-2 list-inside list-disc space-y-1">
         {result.affectedHolidayIds.map((id) => {
           const h = holidayMap.get(id);
@@ -94,7 +97,7 @@ function AffectedHolidays({
             <li key={id}>
               {h?.title ?? id}
               {h ? (
-                <span className="font-mono tabular-nums" dir="ltr">
+                <span className="font-mono tabular-nums text-lawwin-gold" dir="ltr">
                   {" "}
                   ({h.jalaliDate})
                 </span>
@@ -119,17 +122,18 @@ export function DeadlineResult({
   return (
     <section
       id={RESULT_PRINT_ID}
-      className="space-y-6 print:shadow-none"
+      className="space-y-6 print:bg-white print:text-zinc-900 print:shadow-none"
       aria-labelledby="deadline-result-heading"
     >
-      <h2
-        id="deadline-result-heading"
-        className="sr-only"
-      >
+      <h2 id="deadline-result-heading" className="sr-only">
         نتیجهٔ محاسبه
       </h2>
 
-      <DeadlineResultHero result={result} />
+      <DeadlineResultHero
+        result={result}
+        ruleTitle={ruleTitle}
+        startDateLabel={startDateLabel}
+      />
 
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:items-start">
         <div className="order-1 lg:order-2 lg:col-span-5">
@@ -144,7 +148,7 @@ export function DeadlineResult({
           <DeadlineCalculationTimeline result={result} />
 
           {result.movedBecauseOfHolidayOrWeekend && result.finalDayReason ? (
-            <p className="rounded-xl border border-lawwin-gold/30 bg-lawwin-gold/5 px-4 py-3.5 text-sm leading-relaxed text-zinc-800">
+            <p className={calculatorAlertMoveClassName}>
               تاریخ نهایی به دلیل {result.finalDayReason} به اولین روز کاری
               بعد منتقل شد.
             </p>

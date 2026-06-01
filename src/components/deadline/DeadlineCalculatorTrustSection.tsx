@@ -24,20 +24,20 @@ const trustBadges = [
 export function DeadlineCalculatorTrustSection() {
   return (
     <section
-      className={`mt-12 p-6 sm:p-8 ${calculatorPremiumPanelClassName}`}
+      className={`mt-10 p-6 sm:p-8 ${calculatorPremiumPanelClassName}`}
       aria-labelledby="trust-sources-heading"
     >
-      <SectionHeading id="trust-sources-heading">
+      <SectionHeading id="trust-sources-heading" className="text-lawwin-on-navy">
         منابع و اعتبار محاسبه
       </SectionHeading>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <div className="space-y-8">
           <div>
-            <h3 className="text-sm font-semibold text-lawwin-navy-deepest">
+            <h3 className="text-sm font-semibold text-lawwin-gold">
               این محاسبه‌گر بر چه اساسی است؟
             </h3>
-            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-zinc-700">
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-lawwin-muted-on-navy">
               {dataSources.map((item) => (
                 <li key={item} className="flex items-start gap-2">
                   <span
@@ -51,19 +51,15 @@ export function DeadlineCalculatorTrustSection() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-lawwin-navy-deepest">
-              دامنهٔ ابزار
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+            <h3 className="text-sm font-semibold text-lawwin-gold">دامنهٔ ابزار</h3>
+            <p className="mt-2 text-sm leading-relaxed text-lawwin-muted-on-navy">
               این ابزار برای کمک به محاسبه مواعد قانونی طراحی شده است.
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-lawwin-navy-deepest">
-              محدودیت‌ها
-            </h3>
-            <ul className="mt-3 list-inside list-disc space-y-1.5 text-sm leading-relaxed text-zinc-700">
+            <h3 className="text-sm font-semibold text-lawwin-gold">محدودیت‌ها</h3>
+            <ul className="mt-3 list-inside list-disc space-y-1.5 text-sm leading-relaxed text-lawwin-muted-on-navy">
               {limitations.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -72,11 +68,11 @@ export function DeadlineCalculatorTrustSection() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className="rounded-xl border border-lawwin-gold/30 bg-gradient-to-br from-lawwin-navy-deepest/[0.04] to-lawwin-gold/[0.08] px-4 py-4 sm:px-5">
-            <p className="text-xs font-medium text-lawwin-navy-deepest/80">
+          <div className="rounded-xl border border-lawwin-gold/35 bg-lawwin-gold/10 px-4 py-4 sm:px-5">
+            <p className="text-xs font-medium text-lawwin-gold/80">
               آخرین بروزرسانی داده‌ها
             </p>
-            <p className="mt-1 text-base font-semibold text-lawwin-navy-deepest">
+            <p className="mt-1 text-base font-semibold text-lawwin-on-navy">
               سال ۱۴۰۵
             </p>
           </div>

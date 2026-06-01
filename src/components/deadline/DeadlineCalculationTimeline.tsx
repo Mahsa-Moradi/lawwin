@@ -26,10 +26,10 @@ function TimelineIcon({
     "flex size-9 shrink-0 items-center justify-center rounded-full ring-2 ring-white shadow-sm";
 
   const toneClass: Record<CalculationTimelineTone, string> = {
-    neutral: "bg-zinc-100 text-zinc-600 ring-zinc-50",
-    amber: "bg-lawwin-gold/15 text-lawwin-navy-deepest ring-lawwin-gold/20",
-    success: "bg-emerald-600 text-white ring-emerald-100",
-    move: "bg-lawwin-navy-deepest/10 text-lawwin-navy ring-lawwin-navy/10",
+    neutral: "bg-white/10 text-lawwin-muted-on-navy ring-white/10",
+    amber: "bg-lawwin-gold/20 text-lawwin-gold ring-lawwin-gold/25",
+    success: "bg-emerald-600/90 text-white ring-emerald-500/30",
+    move: "bg-lawwin-gold/15 text-lawwin-gold ring-lawwin-gold/20",
   };
 
   if (isFinal) {
@@ -116,9 +116,9 @@ function TimelineIcon({
 
 function dateToneClass(tone: CalculationTimelineTone, isFinal?: boolean): string {
   if (isFinal) return "text-lawwin-gold";
-  if (tone === "amber") return "text-lawwin-navy-deepest";
-  if (tone === "move") return "text-lawwin-navy";
-  return "text-zinc-900";
+  if (tone === "amber") return "text-lawwin-gold/90";
+  if (tone === "move") return "text-lawwin-on-navy";
+  return "text-lawwin-on-navy";
 }
 
 export function DeadlineCalculationTimeline({
@@ -172,7 +172,7 @@ export function DeadlineCalculationTimeline({
               <TimelineIcon tone={step.tone} isFinal={step.isFinal} />
 
               <div className="min-w-0 flex-1 pt-0.5">
-                <p className="text-sm font-semibold text-zinc-800">
+                <p className="text-sm font-semibold text-lawwin-on-navy">
                   {step.title}
                 </p>
                 <p
@@ -181,7 +181,7 @@ export function DeadlineCalculationTimeline({
                 >
                   {dateDisplay}
                 </p>
-                <p className="mt-1.5 text-xs leading-relaxed text-zinc-600 sm:text-sm">
+                <p className="mt-1.5 text-xs leading-relaxed text-lawwin-muted-on-navy sm:text-sm">
                   {step.description}
                 </p>
               </div>

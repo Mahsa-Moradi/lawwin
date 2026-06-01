@@ -20,12 +20,18 @@ import type { DeadlineCalculationResult } from "@/types/deadline";
 import { Button } from "@/components/ui/Button";
 import { JalaliDatePickerInput } from "@/components/ui/JalaliDatePickerInput";
 import {
+  calculatorAlertErrorClassName,
+  calculatorCheckboxBoxClassName,
+  calculatorDashboardPaddingClassName,
+  calculatorDashboardShellClassName,
   calculatorFieldHintClassName,
   calculatorFieldLabelClassName,
   calculatorFormCardClassName,
   calculatorFormCardCompactClassName,
   calculatorInfoCalloutClassName,
   calculatorInputClassName,
+  calculatorLegalReviewClassName,
+  calculatorMutedBoxClassName,
 } from "./calculatorStyles";
 import { DeadlineResult } from "./DeadlineResult";
 import { SearchableDeadlineSelect } from "./SearchableDeadlineSelect";
@@ -72,6 +78,21 @@ const SAMPLE_INPUT = {
   ruleId: "cpp-05",
   includeHolidays: true,
 } as const;
+
+function DashboardGlow() {
+  return (
+    <>
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,175,55,0.12),transparent)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -end-20 top-0 size-56 rounded-full bg-lawwin-gold/10 blur-3xl"
+        aria-hidden
+      />
+    </>
+  );
+}
 
 export function DeadlineForm() {
   const initialStored = useMemo(() => loadStoredCalculation(), []);
@@ -236,59 +257,48 @@ export function DeadlineForm() {
     ? calculatorFormCardCompactClassName
     : calculatorFormCardClassName;
 
-  return (
-    <div
-      className={
-        hasResult
-          ? "mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start lg:gap-10"
-          : "mt-10"
-      }
-    >
-      <form
-        id="deadline-calculator-form"
-        onSubmit={handleSubmit}
-        className={`${formClassName}${hasResult ? " order-2 lg:order-none lg:col-span-4" : ""}`}
-        noValidate
+  const formFields = (
+    <>
+      {hasResult ? (
+        <p className="text-xs font-semibold text-lawwin-gold">
+          ویرایش ورودی‌ها و محاسبهٔ دوباره
+        </p>
+      ) : (
+        <h2 className="text-base font-semibold text-lawwin-on-navy">
+          ورودی‌های محاسبه
+        </h2>
+      )}
+      <div
+        className={`${calculatorInfoCalloutClassName}${hasResult ? " text-xs leading-relaxed" : ""}`}
       >
-        {hasResult ? (
-          <p className="text-xs font-semibold text-lawwin-navy-deepest/70">
-            ویرایش ورودی‌ها و محاسبهٔ دوباره
-          </p>
-        ) : null}
-        <div
-          className={`${calculatorInfoCalloutClassName}${hasResult ? " text-xs leading-relaxed" : ""}`}
-        >
-          {isCivilCategory ? (
-            <>
-              در آیین دادرسی مدنی، <strong>روز ابلاغ شمرده نمی‌شود</strong> و
-              شمارش از روز بعد آغاز می‌شود. تعطیلات در میانهٔ مهلت عادی محسوب
-              می‌شوند؛ فقط اگر <strong>روز آخر اقدام</strong> تعطیل رسمی،
-              پنجشنبه یا جمعه باشد، به اولین روز کاری بعد منتقل می‌شود.
-            </>
-          ) : (
-            <>
-              حالت نمونهٔ عمومی: تاریخ شروع به‌علاوهٔ تعداد روز (منطق سادهٔ
-              قبلی). برای قواعد آیین دادرسی، دستهٔ «آیین دادرسی مدنی» را
-              انتخاب کنید.
-            </>
-          )}
-        </div>
+        {isCivilCategory ? (
+          <>
+            در آیین دادرسی مدنی، <strong className="text-lawwin-gold">روز ابلاغ شمرده نمی‌شود</strong> و
+            شمارش از روز بعد آغاز می‌شود. تعطیلات در میانهٔ مهلت عادی محسوب
+            می‌شوند؛ فقط اگر <strong className="text-lawwin-gold">روز آخر اقدام</strong> تعطیل رسمی،
+            پنجشنبه یا جمعه باشد، به اولین روز کاری بعد منتقل می‌شود.
+          </>
+        ) : (
+          <>
+            حالت نمونهٔ عمومی: تاریخ شروع به‌علاوهٔ تعداد روز (منطق سادهٔ
+            قبلی). برای قواعد آیین دادرسی، دستهٔ «آیین دادرسی مدنی» را
+            انتخاب کنید.
+          </>
+        )}
+      </div>
 
-        <div
-          className={`rounded-xl border border-zinc-200/80 bg-zinc-50/60 px-4 py-3 text-sm text-zinc-700${hasResult ? " hidden sm:block" : ""}`}
-        >
-          تاریخ امروز (شمسی):{" "}
-          <span className="font-mono font-semibold tabular-nums text-lawwin-navy-deepest" dir="ltr">
-            {todayJalali || "-"}
-          </span>
-        </div>
+      <div
+        className={`${calculatorMutedBoxClassName}${hasResult ? " hidden sm:block" : ""}`}
+      >
+        تاریخ امروز (شمسی):{" "}
+        <span className="font-mono font-semibold tabular-nums text-lawwin-gold" dir="ltr">
+          {todayJalali || "-"}
+        </span>
+      </div>
 
-        <div className="space-y-5">
+      <div className="space-y-5">
         <div>
-          <label
-            htmlFor="category-id"
-            className={calculatorFieldLabelClassName}
-          >
+          <label htmlFor="category-id" className={calculatorFieldLabelClassName}>
             دسته‌بندی
           </label>
           <select
@@ -296,10 +306,10 @@ export function DeadlineForm() {
             name="categoryId"
             value={categoryId}
             onChange={(e) => handleCategoryChange(e.target.value)}
-            className={`${calculatorInputClassName} mt-2 max-w-md`}
+            className={`${calculatorInputClassName} mt-2`}
           >
             {categoriesList.map((c) => (
-              <option key={c.id} value={c.id}>
+              <option key={c.id} value={c.id} className="bg-lawwin-navy-deepest">
                 {c.label}
               </option>
             ))}
@@ -307,10 +317,7 @@ export function DeadlineForm() {
         </div>
 
         <div>
-          <label
-            htmlFor="start-date"
-            className={calculatorFieldLabelClassName}
-          >
+          <label htmlFor="start-date" className={calculatorFieldLabelClassName}>
             {isCivilCategory ? "تاریخ ابلاغ (شمسی)" : "تاریخ شروع مهلت (شمسی)"}
           </label>
           <p className={calculatorFieldHintClassName}>
@@ -323,7 +330,7 @@ export function DeadlineForm() {
             onChange={setStartDate}
             placeholder="1405-03-04"
             className="mt-2"
-            inputClassName={`${calculatorInputClassName} max-w-md px-10 font-mono tabular-nums`}
+            inputClassName={`${calculatorInputClassName} px-10 font-mono tabular-nums`}
           />
         </div>
 
@@ -342,73 +349,97 @@ export function DeadlineForm() {
             onChange={setRuleId}
           />
           {selectedRule?.needsLegalReview ? (
-            <p className="mt-2 text-xs text-amber-800">
+            <p className={calculatorLegalReviewClassName}>
               این قانون برای بازبینی حقوقی علامت‌گذاری شده است؛ قبل از اقدام
               حتماً با متن قانون و وکیل تطبیق دهید.
             </p>
           ) : null}
         </div>
-        </div>
+      </div>
 
-        <div className="flex items-start gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/40 px-4 py-3.5">
-          <input
-            id="include-holidays"
-            name="includeHolidays"
-            type="checkbox"
-            checked={includeHolidays}
-            onChange={(e) => setIncludeHolidays(e.target.checked)}
-            className="mt-1 size-4 rounded border-zinc-300 text-lawwin-navy-deepest focus:ring-lawwin-gold"
-          />
-          <label htmlFor="include-holidays" className="text-sm text-zinc-800">
-            {isCivilCategory
-              ? "اگر روز آخر اقدام تعطیل رسمی، پنجشنبه یا جمعه باشد، به اولین روز کاری بعد منتقل شود"
-              : "لحاظ تعطیلات رسمی در روز آخر مهلت (در صورت تعطیل بودن، به اولین روز غیرتعطیل منتقل می‌شود)"}
-          </label>
-        </div>
+      <div className={calculatorCheckboxBoxClassName}>
+        <input
+          id="include-holidays"
+          name="includeHolidays"
+          type="checkbox"
+          checked={includeHolidays}
+          onChange={(e) => setIncludeHolidays(e.target.checked)}
+          className="mt-1 size-4 rounded border-white/30 bg-lawwin-navy-deepest text-lawwin-gold focus:ring-lawwin-gold"
+        />
+        <label htmlFor="include-holidays" className="text-sm text-lawwin-on-navy/90">
+          {isCivilCategory
+            ? "اگر روز آخر اقدام تعطیل رسمی، پنجشنبه یا جمعه باشد، به اولین روز کاری بعد منتقل شود"
+            : "لحاظ تعطیلات رسمی در روز آخر مهلت (در صورت تعطیل بودن، به اولین روز غیرتعطیل منتقل می‌شود)"}
+        </label>
+      </div>
 
-        {errors.length > 0 ? (
-          <div
-            role="alert"
-            className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-          >
-            <ul className="list-inside list-disc space-y-1">
-              {errors.map((err) => (
-                <li key={err}>{err}</li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
-
-        <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-5">
-          <Button type="submit" variant="brand">
-            محاسبه
-          </Button>
-          {!hasResult ? (
-            <Button type="button" variant="secondary" onClick={handleReset}>
-              محاسبه مجدد
-            </Button>
-          ) : null}
-          <Button type="button" variant="secondary" onClick={handleSample}>
-            نمونه تستی
-          </Button>
-        </div>
-      </form>
-
-      {result ? (
-        <div className="order-1 lg:col-span-8">
-          <DeadlineResult
-            result={result}
-            ruleTitle={selectedRule?.title ?? ""}
-            startDateLabel={
-              isCivilCategory ? "تاریخ ابلاغ" : "تاریخ شروع"
-            }
-            onRecalculate={handleRecalculateFocus}
-            holidays={getHolidaysForCalculation({
-              startDateJalali: result.startDateJalali,
-            })}
-          />
+      {errors.length > 0 ? (
+        <div role="alert" className={calculatorAlertErrorClassName}>
+          <ul className="list-inside list-disc space-y-1">
+            {errors.map((err) => (
+              <li key={err}>{err}</li>
+            ))}
+          </ul>
         </div>
       ) : null}
+
+      <div className="flex flex-wrap items-center gap-2 border-t border-white/10 pt-5">
+        <Button type="submit" variant="brand" className="min-w-[8rem]">
+          محاسبه موعد
+        </Button>
+        {!hasResult ? (
+          <Button type="button" variant="brandOutline" onClick={handleReset}>
+            پاک کردن
+          </Button>
+        ) : null}
+        <Button type="button" variant="brandOutline" onClick={handleSample}>
+          نمونه تستی
+        </Button>
+      </div>
+    </>
+  );
+
+  return (
+    <div className="mt-8">
+      <div className={calculatorDashboardShellClassName}>
+        <DashboardGlow />
+        <div className={calculatorDashboardPaddingClassName}>
+          {hasResult ? (
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
+              <div className="order-1 lg:col-span-8">
+                <DeadlineResult
+                  result={result}
+                  ruleTitle={selectedRule?.title ?? ""}
+                  startDateLabel={
+                    isCivilCategory ? "تاریخ ابلاغ" : "تاریخ شروع"
+                  }
+                  onRecalculate={handleRecalculateFocus}
+                  holidays={getHolidaysForCalculation({
+                    startDateJalali: result.startDateJalali,
+                  })}
+                />
+              </div>
+              <form
+                id="deadline-calculator-form"
+                onSubmit={handleSubmit}
+                className={`${formClassName} order-2 lg:col-span-4`}
+                noValidate
+              >
+                {formFields}
+              </form>
+            </div>
+          ) : (
+            <form
+              id="deadline-calculator-form"
+              onSubmit={handleSubmit}
+              className={formClassName}
+              noValidate
+            >
+              {formFields}
+            </form>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,10 @@ import {
   toPersianDigits,
 } from "@/lib/deadline/jalaliDisplay";
 import { StatusBadge } from "@/components/ui/Badge";
-import { calculatorSummaryCardClassName } from "./calculatorStyles";
+import {
+  calculatorSummaryCardClassName,
+  calculatorSummarySectionClassName,
+} from "./calculatorStyles";
 
 type DeadlineResultSummaryProps = {
   ruleTitle: string;
@@ -16,8 +19,8 @@ type DeadlineResultSummaryProps = {
 function SummaryCard({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className={calculatorSummaryCardClassName}>
-      <p className="text-xs font-medium text-zinc-500">{label}</p>
-      <div className="mt-1.5 text-sm font-semibold text-lawwin-navy-deepest">
+      <p className="text-xs font-medium text-lawwin-muted-on-navy">{label}</p>
+      <div className="mt-1.5 text-sm font-semibold text-lawwin-on-navy">
         {children}
       </div>
     </div>
@@ -34,10 +37,8 @@ export function DeadlineResultSummary({
   );
 
   return (
-    <div className="rounded-2xl border border-zinc-200/90 bg-zinc-50/40 p-4 sm:p-5">
-      <h3 className="text-sm font-semibold text-lawwin-navy-deepest">
-        جزئیات محاسبه
-      </h3>
+    <div className={calculatorSummarySectionClassName}>
+      <h3 className="text-sm font-semibold text-lawwin-gold">خلاصه محاسبه</h3>
       <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <SummaryCard label="نوع مهلت">
           <span className="line-clamp-2 text-pretty leading-snug">
@@ -48,7 +49,7 @@ export function DeadlineResultSummary({
           {result.durationLabel ?? "—"}
         </SummaryCard>
         <SummaryCard label={startDateLabel}>
-          <span className="font-mono tabular-nums" dir="ltr">
+          <span className="font-mono tabular-nums text-lawwin-gold" dir="ltr">
             {notificationDisplay}
           </span>
         </SummaryCard>

@@ -133,7 +133,7 @@ export function SearchableDeadlineSelect({
           setIsOpen(true);
         }}
         onKeyDown={handleKeyDown}
-        className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 px-3 min-h-11 text-sm text-zinc-900 outline-none transition-colors focus:border-lawwin-navy focus:bg-white focus:ring-2 focus:ring-lawwin-gold/25"
+        className="w-full rounded-xl border border-white/15 bg-lawwin-navy-deepest/90 px-3 min-h-11 text-sm text-lawwin-on-navy outline-none transition-colors placeholder:text-lawwin-muted-on-navy focus:border-lawwin-gold/55 focus:ring-2 focus:ring-lawwin-gold/25"
       />
 
       {isOpen ? (
@@ -141,10 +141,10 @@ export function SearchableDeadlineSelect({
           id={listboxId}
           role="listbox"
           aria-label="فهرست انواع مهلت"
-          className="absolute inset-x-0 top-full z-20 mt-1 max-h-60 overflow-y-auto rounded-xl border border-zinc-200 bg-white py-1 shadow-lg"
+          className="absolute inset-x-0 top-full z-20 mt-1 max-h-60 overflow-y-auto rounded-xl border border-white/15 bg-lawwin-navy py-1 shadow-xl shadow-black/40"
         >
           {filteredRules.length === 0 ? (
-            <li className="px-4 py-3 text-sm leading-relaxed text-zinc-500">
+            <li className="px-4 py-3 text-sm leading-relaxed text-lawwin-muted-on-navy">
               نتیجه‌ای یافت نشد. عبارت دیگری امتحان کنید یا دستهٔ دیگری را
               انتخاب کنید.
             </li>
@@ -162,12 +162,12 @@ export function SearchableDeadlineSelect({
                     onClick={() => selectRule(rule)}
                     className={`w-full px-4 py-2.5 text-start text-sm transition-colors ${
                       isActive || isSelected
-                        ? "bg-zinc-100 text-zinc-900"
-                        : "text-zinc-800 hover:bg-zinc-50"
+                        ? "bg-lawwin-gold/15 text-lawwin-on-navy"
+                        : "text-lawwin-on-navy/90 hover:bg-white/5"
                     }`}
                   >
                     <span className="block font-medium">{rule.title}</span>
-                    <span className="mt-0.5 block text-xs text-zinc-500">
+                    <span className="mt-0.5 block text-xs text-lawwin-muted-on-navy">
                       {rule.durationLabel}
                     </span>
                   </button>
