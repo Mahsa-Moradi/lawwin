@@ -19,8 +19,10 @@ type DeadlineResultSummaryProps = {
 function SummaryCard({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className={calculatorSummaryCardClassName}>
-      <p className="text-xs font-medium text-lawwin-muted-on-navy">{label}</p>
-      <div className="mt-1.5 text-sm font-semibold text-lawwin-on-navy">
+      <p className="text-[0.65rem] font-medium uppercase tracking-wide text-lawwin-muted-on-navy sm:text-xs">
+        {label}
+      </p>
+      <div className="mt-0.5 text-xs font-semibold leading-snug text-lawwin-on-navy sm:text-sm">
         {children}
       </div>
     </div>
@@ -38,12 +40,12 @@ export function DeadlineResultSummary({
 
   return (
     <div className={calculatorSummarySectionClassName}>
-      <h3 className="text-sm font-semibold text-lawwin-gold">خلاصه محاسبه</h3>
-      <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <h3 className="text-xs font-semibold text-lawwin-gold sm:text-sm">
+        خلاصه محاسبه
+      </h3>
+      <dl className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5">
         <SummaryCard label="نوع مهلت">
-          <span className="line-clamp-2 text-pretty leading-snug">
-            {ruleTitle || "—"}
-          </span>
+          <span className="line-clamp-2 text-pretty">{ruleTitle || "—"}</span>
         </SummaryCard>
         <SummaryCard label="مدت مهلت">
           {result.durationLabel ?? "—"}

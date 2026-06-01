@@ -86,7 +86,7 @@ function AffectedHolidays({
   const holidayMap = new Map(holidays.map((h) => [h.id, h]));
 
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3.5 text-sm text-lawwin-muted-on-navy">
+    <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5 text-xs text-lawwin-muted-on-navy sm:text-sm">
       <p className="font-medium text-lawwin-on-navy">
         تعطیلات رسمی در مسیر جابه‌جایی
       </p>
@@ -122,20 +122,16 @@ export function DeadlineResult({
   return (
     <section
       id={RESULT_PRINT_ID}
-      className="space-y-6 print:bg-white print:text-zinc-900 print:shadow-none"
+      className="space-y-4 print:bg-white print:text-zinc-900 print:shadow-none"
       aria-labelledby="deadline-result-heading"
     >
       <h2 id="deadline-result-heading" className="sr-only">
         نتیجهٔ محاسبه
       </h2>
 
-      <DeadlineResultHero
-        result={result}
-        ruleTitle={ruleTitle}
-        startDateLabel={startDateLabel}
-      />
+      <DeadlineResultHero result={result} />
 
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:items-start">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-12 lg:items-start lg:gap-5">
         <div className="order-1 lg:order-2 lg:col-span-5">
           <DeadlineResultActions
             copyText={copyText}
@@ -144,7 +140,7 @@ export function DeadlineResult({
           />
         </div>
 
-        <div className="order-2 space-y-4 lg:order-1 lg:col-span-7">
+        <div className="order-2 space-y-3 lg:order-1 lg:col-span-7">
           <DeadlineCalculationTimeline result={result} />
 
           {result.movedBecauseOfHolidayOrWeekend && result.finalDayReason ? (

@@ -23,7 +23,7 @@ function TimelineIcon({
   isFinal?: boolean;
 }) {
   const base =
-    "flex size-9 shrink-0 items-center justify-center rounded-full ring-2 ring-white shadow-sm";
+    "flex size-8 shrink-0 items-center justify-center rounded-full ring-2 ring-lawwin-navy shadow-sm";
 
   const toneClass: Record<CalculationTimelineTone, string> = {
     neutral: "bg-white/10 text-lawwin-muted-on-navy ring-white/10",
@@ -150,7 +150,7 @@ export function DeadlineCalculationTimeline({
         <h3 className={calculatorPanelHeaderTitleClassName}>روند محاسبه</h3>
       </div>
 
-      <ol className="relative px-4 py-5 sm:px-5">
+      <ol className="relative px-3 py-3.5 sm:px-4">
         {steps.map((step, index) => {
           const isLast = index === steps.length - 1;
           const dateDisplay = toPersianDigits(
@@ -160,7 +160,7 @@ export function DeadlineCalculationTimeline({
           return (
             <li
               key={step.id}
-              className="relative flex gap-4 pb-8 last:pb-0"
+              className="relative flex gap-3 pb-5 last:pb-0"
             >
               {!isLast ? (
                 <span

@@ -29,7 +29,7 @@ export function DeadlineResultActions({
     >
       <div className={calculatorPanelHeaderClassName}>
         <span
-          className="flex size-8 items-center justify-center rounded-lg bg-lawwin-gold/15 text-lawwin-gold"
+          className="flex size-7 items-center justify-center rounded-md bg-lawwin-gold/15 text-lawwin-gold"
           aria-hidden
         >
           <svg
@@ -54,7 +54,7 @@ export function DeadlineResultActions({
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 sm:p-5">
+      <div className="grid grid-cols-1 gap-1.5 p-3 sm:grid-cols-2 sm:p-3.5">
         <CopyResultButton
           textToCopy={copyText}
           label="کپی نتیجه"
@@ -68,7 +68,7 @@ export function DeadlineResultActions({
           type="button"
           variant="brandOutline"
           onClick={onRecalculate}
-          className="w-full sm:col-span-2"
+          className="min-h-10 w-full sm:col-span-2"
         >
           محاسبه مجدد
         </Button>

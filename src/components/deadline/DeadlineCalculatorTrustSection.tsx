@@ -24,15 +24,15 @@ const trustBadges = [
 export function DeadlineCalculatorTrustSection() {
   return (
     <section
-      className={`mt-10 p-6 sm:p-8 ${calculatorPremiumPanelClassName}`}
+      className={`mt-7 p-4 sm:p-5 ${calculatorPremiumPanelClassName}`}
       aria-labelledby="trust-sources-heading"
     >
       <SectionHeading id="trust-sources-heading" className="text-lawwin-on-navy">
         منابع و اعتبار محاسبه
       </SectionHeading>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <div className="space-y-8">
+      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+        <div className="space-y-5">
           <div>
             <h3 className="text-sm font-semibold text-lawwin-gold">
               این محاسبه‌گر بر چه اساسی است؟

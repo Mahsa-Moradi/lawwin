@@ -133,7 +133,7 @@ export function SearchableDeadlineSelect({
           setIsOpen(true);
         }}
         onKeyDown={handleKeyDown}
-        className="w-full rounded-xl border border-white/15 bg-lawwin-navy-deepest/90 px-3 min-h-11 text-sm text-lawwin-on-navy outline-none transition-colors placeholder:text-lawwin-muted-on-navy focus:border-lawwin-gold/55 focus:ring-2 focus:ring-lawwin-gold/25"
+        className="w-full rounded-lg border border-white/15 bg-lawwin-navy-deepest/90 px-3 min-h-10 text-sm text-lawwin-on-navy outline-none transition-colors placeholder:text-lawwin-muted-on-navy focus:border-lawwin-gold/55 focus:ring-2 focus:ring-lawwin-gold/25"
       />
 
       {isOpen ? (

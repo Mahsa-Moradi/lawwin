@@ -81,16 +81,10 @@ const SAMPLE_INPUT = {
 
 function DashboardGlow() {
   return (
-    <>
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(212,175,55,0.12),transparent)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -end-20 top-0 size-56 rounded-full bg-lawwin-gold/10 blur-3xl"
-        aria-hidden
-      />
-    </>
+    <div
+      className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_100%_0%,rgba(212,175,55,0.08),transparent)]"
+      aria-hidden
+    />
   );
 }
 
@@ -296,7 +290,7 @@ export function DeadlineForm() {
         </span>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-3.5">
         <div>
           <label htmlFor="category-id" className={calculatorFieldLabelClassName}>
             دسته‌بندی
@@ -383,7 +377,7 @@ export function DeadlineForm() {
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-2 border-t border-white/10 pt-5">
+      <div className="flex flex-wrap items-center gap-2 border-t border-white/10 pt-3.5">
         <Button type="submit" variant="brand" className="min-w-[8rem]">
           محاسبه موعد
         </Button>
@@ -400,13 +394,21 @@ export function DeadlineForm() {
   );
 
   return (
-    <div className="mt-8">
+    <div className="mt-5">
       <div className={calculatorDashboardShellClassName}>
         <DashboardGlow />
         <div className={calculatorDashboardPaddingClassName}>
           {hasResult ? (
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
-              <div className="order-1 lg:col-span-8">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:items-start lg:gap-5">
+              <form
+                id="deadline-calculator-form"
+                onSubmit={handleSubmit}
+                className={`${formClassName} order-2 lg:order-1 lg:col-span-4`}
+                noValidate
+              >
+                {formFields}
+              </form>
+              <div className="order-1 lg:order-2 lg:col-span-8">
                 <DeadlineResult
                   result={result}
                   ruleTitle={selectedRule?.title ?? ""}
@@ -419,14 +421,6 @@ export function DeadlineForm() {
                   })}
                 />
               </div>
-              <form
-                id="deadline-calculator-form"
-                onSubmit={handleSubmit}
-                className={`${formClassName} order-2 lg:col-span-4`}
-                noValidate
-              >
-                {formFields}
-              </form>
             </div>
           ) : (
             <form

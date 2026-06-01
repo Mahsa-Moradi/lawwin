@@ -8,7 +8,7 @@ const DeadlineForm = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="mt-8 rounded-2xl border border-white/10 bg-lawwin-navy p-6 shadow-xl shadow-black/30">
+      <div className="mt-5 rounded-xl border border-white/10 bg-lawwin-navy p-4 shadow-lg shadow-black/25">
         <p className="text-sm text-lawwin-muted-on-navy">در حال بارگذاری فرم…</p>
       </div>
     ),
