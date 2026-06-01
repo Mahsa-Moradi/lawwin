@@ -82,10 +82,57 @@ export function PremiumCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm transition-shadow hover:shadow-md",
+        "rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm",
         className,
       )}
     >
+      {children}
+    </div>
+  );
+}
+
+/** کارت ویژگی — سایه و hover premium */
+export function FeaturePremiumCard({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "group h-full rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-sm shadow-zinc-900/5 transition-all duration-200 sm:p-7",
+        "hover:-translate-y-1 hover:border-lawwin-gold/35 hover:shadow-lg hover:shadow-lawwin-gold/10",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** کارت میانبر موعد — قابل کلیک */
+export function DeadlineActionCard({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm shadow-zinc-900/5 transition-all duration-200",
+        "hover:-translate-y-1 hover:border-lawwin-gold/50 hover:shadow-xl hover:shadow-lawwin-gold/15",
+        "focus-within:ring-2 focus-within:ring-lawwin-gold/40",
+        className,
+      )}
+    >
+      <span
+        className="absolute inset-y-0 start-0 w-1 bg-lawwin-gold/0 transition-colors duration-200 group-hover:bg-lawwin-gold"
+        aria-hidden
+      />
       {children}
     </div>
   );

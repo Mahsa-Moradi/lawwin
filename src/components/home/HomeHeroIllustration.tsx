@@ -2,26 +2,26 @@
 export function HomeHeroIllustration() {
   return (
     <div
-      className="relative mx-auto aspect-[4/3] w-full max-w-md lg:max-w-none"
+      className="relative aspect-[4/3] w-full"
       aria-hidden
     >
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-lawwin-navy via-lawwin-navy-deepest to-black/40 ring-1 ring-white/10" />
-      <div className="absolute inset-4 rounded-2xl bg-lawwin-gold/5 ring-1 ring-lawwin-gold/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-lawwin-navy via-lawwin-navy-deepest to-black/50" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.2),transparent_55%)]" />
+      <div className="absolute inset-x-8 bottom-8 top-8 rounded-2xl ring-1 ring-lawwin-gold/15" />
 
       <svg
         viewBox="0 0 320 240"
-        className="relative h-full w-full p-6"
+        className="relative h-full w-full p-8 sm:p-10"
         fill="none"
       >
-        <ellipse cx="160" cy="200" rx="100" ry="12" fill="url(#heroGlow)" />
+        <ellipse cx="160" cy="200" rx="110" ry="14" fill="url(#heroGlow)" />
         <defs>
           <radialGradient id="heroGlow">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.35" />
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.45" />
             <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
           </radialGradient>
         </defs>
 
-        {/* تقویم */}
         <rect
           x="48"
           y="56"
@@ -57,7 +57,6 @@ export function HomeHeroIllustration() {
           )),
         )}
 
-        {/* ترازو */}
         <path
           d="M200 88h48M224 88v72M200 160h48"
           stroke="#D4AF37"
@@ -81,7 +80,6 @@ export function HomeHeroIllustration() {
         />
         <circle cx="224" cy="88" r="6" fill="#D4AF37" />
 
-        {/* ساعت کوچک */}
         <circle cx="248" cy="52" r="20" stroke="#D4AF37" strokeWidth="2" />
         <path
           d="M248 52v-8M248 52l6 4"
