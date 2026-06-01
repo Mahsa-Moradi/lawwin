@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
@@ -20,18 +21,12 @@ export default function ContactPage() {
           این نسخه برای تست عمومی است و ارسال پیام هنوز فعال نشده است.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          <Link
-            href="/deadline-calculator"
-            className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-          >
+          <ButtonLink href="/deadline-calculator" variant="primary">
             رفتن به محاسبه‌گر موعد
-          </Link>
-          <Link
-            href="/about"
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-800 no-underline transition-colors hover:bg-zinc-100"
-          >
+          </ButtonLink>
+          <ButtonLink href="/about" variant="secondary">
             درباره لاوین
-          </Link>
+          </ButtonLink>
         </div>
       </header>
 
@@ -65,7 +60,7 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto mt-8 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-zinc-900">فرم تماس</h2>
+        <SectionHeading>فرم تماس</SectionHeading>
         <p className="mt-2 text-sm text-zinc-600">
           ارسال فرم در این نسخه{" "}
           <span className="font-semibold text-zinc-800">فعال نیست</span>. این بخش
@@ -119,7 +114,7 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto mt-8 max-w-3xl rounded-2xl border border-zinc-200 bg-zinc-50 p-6">
-        <h2 className="text-base font-semibold text-zinc-900">سلب مسئولیت</h2>
+        <SectionHeading>سلب مسئولیت</SectionHeading>
         <p className="mt-2 text-sm leading-7 text-zinc-700">
           اطلاعات و ابزارهای این وب‌سایت صرفاً راهنما هستند و جایگزین مشاورهٔ حقوقی
           تخصصی نیستند. مسئولیت استفاده از نتایج بر عهدهٔ کاربر است.

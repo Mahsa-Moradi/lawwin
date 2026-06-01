@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { DeadlineCalculatorTrustSection } from "@/components/deadline/DeadlineCalculatorTrustSection";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DeadlineFormClient } from "./DeadlineFormClient";
 
 export const metadata: Metadata = {
@@ -46,12 +47,9 @@ export default function DeadlineCalculatorPage() {
           تعطیلات دقیق نباشد. قبل از اقدام حتماً با وکیل مشورت کنید.
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          <Link
-            href="/articles"
-            className="rounded-xl border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 no-underline transition-colors hover:bg-zinc-100"
-          >
+          <ButtonLink href="/articles" variant="secondary">
             مقالات و نکات
-          </Link>
+          </ButtonLink>
           <span className="text-xs text-zinc-500">
             این پروژه در حال توسعه است و محتوا فعلاً نمونه است.
           </span>
@@ -63,9 +61,7 @@ export default function DeadlineCalculatorPage() {
       <DeadlineCalculatorTrustSection />
 
       <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:max-w-none">
-        <h2 className="text-lg font-semibold text-zinc-900">
-          سوالات پرتکرار
-        </h2>
+        <SectionHeading>سوالات پرتکرار</SectionHeading>
         <div className="mt-5 space-y-4">
           {faqs.map((item) => (
             <details

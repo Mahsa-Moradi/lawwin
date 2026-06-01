@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { CopyResultButton } from "./CopyResultButton";
 import { PrintResultButton } from "./PrintResultButton";
 
@@ -38,13 +39,14 @@ export function DeadlineResultActions({
           targetId={printTargetId}
           className="w-full justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 hover:bg-amber-100"
         />
-        <button
+        <Button
           type="button"
+          variant="secondary"
           onClick={onRecalculate}
-          className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
+          className="w-full"
         >
           محاسبه مجدد
-        </button>
+        </Button>
       </div>
     </aside>
   );

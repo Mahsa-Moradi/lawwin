@@ -1,3 +1,6 @@
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { TrustBadge } from "@/components/ui/Badge";
+
 const dataSources = [
   "آیین دادرسی مدنی",
   "مواعد قانونی وارد شده در سیستم",
@@ -17,29 +20,15 @@ const trustBadges = [
   "لحاظ تعطیلات رسمی",
 ] as const;
 
-function CheckIcon() {
-  return (
-    <span
-      className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-800"
-      aria-hidden
-    >
-      ✓
-    </span>
-  );
-}
-
 export function DeadlineCalculatorTrustSection() {
   return (
     <section
       className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8"
       aria-labelledby="trust-sources-heading"
     >
-      <h2
-        id="trust-sources-heading"
-        className="text-lg font-semibold text-zinc-900"
-      >
+      <SectionHeading id="trust-sources-heading">
         منابع و اعتبار محاسبه
-      </h2>
+      </SectionHeading>
 
       <div className="mt-6 space-y-8">
         <div>
@@ -89,10 +78,7 @@ export function DeadlineCalculatorTrustSection() {
           <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             {trustBadges.map((badge) => (
               <li key={badge}>
-                <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-800">
-                  <CheckIcon />
-                  {badge}
-                </span>
+                <TrustBadge>{badge}</TrustBadge>
               </li>
             ))}
           </ul>

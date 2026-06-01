@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
@@ -43,18 +44,12 @@ export default function Home() {
         </div>
 
         <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:justify-center">
-          <Link
-            href="/deadline-calculator"
-            className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-          >
+          <ButtonLink href="/deadline-calculator" variant="primary">
             شروع محاسبه موعد
-          </Link>
-          <Link
-            href="/articles"
-            className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-6 py-3 text-base font-semibold text-zinc-800 no-underline transition-colors hover:bg-zinc-100"
-          >
+          </ButtonLink>
+          <ButtonLink href="/articles" variant="secondary">
             مطالعه مقالات
-          </Link>
+          </ButtonLink>
         </div>
       </section>
 
@@ -62,12 +57,9 @@ export default function Home() {
         className="mx-auto mt-14 max-w-3xl"
         aria-labelledby="how-it-works-heading"
       >
-        <h2
-          id="how-it-works-heading"
-          className="text-center text-lg font-semibold text-zinc-900"
-        >
+        <SectionHeading id="how-it-works-heading" centered>
           چطور کار می‌کند؟
-        </h2>
+        </SectionHeading>
         <ol className="mt-6 space-y-4">
           {steps.map((step, index) => (
             <li
@@ -92,12 +84,9 @@ export default function Home() {
         className="mx-auto mt-14 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm"
         aria-labelledby="support-heading"
       >
-        <h2
-          id="support-heading"
-          className="text-base font-semibold text-zinc-900"
-        >
+        <SectionHeading id="support-heading">
           پشتیبانی و مشاوره
-        </h2>
+        </SectionHeading>
         <p className="mt-2 text-sm leading-relaxed text-zinc-600">
           برای پرسش یا هماهنگی مشاوره می‌توانید از راه‌های زیر استفاده کنید.
         </p>

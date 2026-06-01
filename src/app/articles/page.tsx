@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Badge } from "@/components/ui/Badge";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
   title: "مقالات",
@@ -52,27 +54,22 @@ export default function ArticlesPage() {
               {a.excerpt}
             </p>
             <div className="mt-4">
-              <span className="inline-flex items-center rounded-lg bg-zinc-100 px-3 py-2 text-xs font-medium text-zinc-700">
-                به‌زودی
-              </span>
+              <Badge variant="neutral">به‌زودی</Badge>
             </div>
           </article>
         ))}
       </section>
 
       <section className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-zinc-900">اعتماد و سلب مسئولیت</h2>
+        <SectionHeading>اعتماد و سلب مسئولیت</SectionHeading>
         <p className="mt-3 text-sm leading-relaxed text-zinc-600">
           مطالب این وب‌سایت برای اطلاع‌رسانی و راهنمایی عمومی است و جایگزین مشاورهٔ
           حقوقی تخصصی نیست. برای پرونده‌های واقعی، با وکیل یا مشاور حقوقی مشورت کنید.
         </p>
         <div className="mt-4">
-          <Link
-            href="/deadline-calculator"
-            className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-          >
+          <ButtonLink href="/deadline-calculator" variant="primary">
             رفتن به محاسبه‌گر موعد
-          </Link>
+          </ButtonLink>
         </div>
       </section>
     </div>

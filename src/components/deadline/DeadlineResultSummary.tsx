@@ -4,8 +4,7 @@ import {
   formatJalaliSlash,
   toPersianDigits,
 } from "@/lib/deadline/jalaliDisplay";
-import { statusSummaryLabel } from "@/lib/deadline/statusSummaryLabel";
-import { DeadlineStatusBadge } from "./DeadlineStatusBadge";
+import { StatusBadge } from "@/components/ui/Badge";
 
 type DeadlineResultSummaryProps = {
   ruleTitle: string;
@@ -50,12 +49,7 @@ export function DeadlineResultSummary({
         </SummaryCard>
         <SummaryCard label="وضعیت">
           {result.status ? (
-            <div className="flex flex-col items-start gap-1.5">
-              <span className="text-emerald-700">
-                {statusSummaryLabel(result.status)}
-              </span>
-              <DeadlineStatusBadge status={result.status} />
-            </div>
+            <StatusBadge status={result.status} />
           ) : (
             "—"
           )}

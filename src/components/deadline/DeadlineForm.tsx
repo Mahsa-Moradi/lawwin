@@ -17,9 +17,10 @@ import {
   jalaliTodayFromLocalDate,
 } from "@/lib/deadline/dateUtils";
 import type { DeadlineCalculationResult } from "@/types/deadline";
+import { Button } from "@/components/ui/Button";
+import { JalaliDatePickerInput } from "@/components/ui/JalaliDatePickerInput";
 import { DeadlineResult } from "./DeadlineResult";
 import { SearchableDeadlineSelect } from "./SearchableDeadlineSelect";
-import { JalaliDatePickerInput } from "@/components/ui/JalaliDatePickerInput";
 
 const STORAGE_KEY = "lawwin:deadline:lastCalculation:v2";
 
@@ -369,28 +370,17 @@ export function DeadlineForm() {
         ) : null}
 
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="submit"
-            className="rounded-xl bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-          >
+          <Button type="submit" variant="primary">
             محاسبه
-          </button>
+          </Button>
           {!hasResult ? (
-            <button
-              type="button"
-              onClick={handleReset}
-              className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
-            >
+            <Button type="button" variant="secondary" onClick={handleReset}>
               محاسبه مجدد
-            </button>
+            </Button>
           ) : null}
-          <button
-            type="button"
-            onClick={handleSample}
-            className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
-          >
+          <Button type="button" variant="secondary" onClick={handleSample}>
             نمونه تستی
-          </button>
+          </Button>
         </div>
       </form>
 

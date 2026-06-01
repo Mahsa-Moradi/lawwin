@@ -3,6 +3,13 @@
 :root {
   --background: #fafafa;
   --foreground: #18181b;
+  /* برند — فاز ۱۵.۱ */
+  --lawwin-navy-deepest: #0d1b2a;
+  --lawwin-navy: #14213d;
+  --lawwin-gold: #d4af37;
+  --lawwin-gold-hover: #c9a227;
+  --lawwin-on-navy: #f8f9fa;
+  --lawwin-muted-on-navy: #94a3b8;
   /* دو FAB (۳.۵rem) + فاصله (۰.۷۵rem) + حاشیه پایین + safe-area */
   --support-fab-clearance: calc(
     7.75rem + 1rem + env(safe-area-inset-bottom, 0px)
@@ -12,6 +19,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-lawwin-navy-deepest: var(--lawwin-navy-deepest);
+  --color-lawwin-navy: var(--lawwin-navy);
+  --color-lawwin-gold: var(--lawwin-gold);
+  --color-lawwin-gold-hover: var(--lawwin-gold-hover);
+  --color-lawwin-on-navy: var(--lawwin-on-navy);
+  --color-lawwin-muted-on-navy: var(--lawwin-muted-on-navy);
   --font-sans: var(--font-vazirmatn), ui-sans-serif, system-ui, sans-serif;
 }
 

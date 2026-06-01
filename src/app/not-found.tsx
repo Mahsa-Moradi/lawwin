@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 
 export default function NotFound() {
   return (
@@ -11,18 +11,12 @@ export default function NotFound() {
           آدرس واردشده وجود ندارد یا ممکن است به‌زودی اضافه شود.
         </p>
         <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:justify-center">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-6 py-3 text-base font-semibold text-zinc-800 no-underline transition-colors hover:bg-zinc-100"
-          >
+          <ButtonLink href="/" variant="secondary">
             بازگشت به خانه
-          </Link>
-          <Link
-            href="/deadline-calculator"
-            className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-          >
+          </ButtonLink>
+          <ButtonLink href="/deadline-calculator" variant="primary">
             رفتن به محاسبه‌گر موعد
-          </Link>
+          </ButtonLink>
         </div>
       </div>
     </div>

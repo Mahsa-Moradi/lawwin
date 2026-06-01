@@ -45,7 +45,7 @@ export default function RootLayout({
         آینده: برای چندزبانه می‌توان lang و dir را از لایهٔ locale (مثلاً fa | en) خواند.
         فعلاً پیش‌فرض فارسی و RTL است.
       */}
-      <body className="flex min-h-full flex-col bg-zinc-50 font-sans text-zinc-900">
+      <body className="flex min-h-full flex-col bg-[var(--background)] font-sans text-zinc-900">
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />

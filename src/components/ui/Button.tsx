@@ -1,0 +1,32 @@
+import type { ButtonHTMLAttributes } from "react";
+import { cn } from "./cn";
+import {
+  primaryButtonClassName,
+  secondaryButtonClassName,
+} from "./buttonStyles";
+
+export type ButtonVariant = "primary" | "secondary";
+
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: ButtonVariant;
+};
+
+export function Button({
+  variant = "primary",
+  className,
+  type = "button",
+  ...props
+}: ButtonProps) {
+  const variantClass =
+    variant === "primary"
+      ? primaryButtonClassName
+      : secondaryButtonClassName;
+
+  return (
+    <button
+      type={type}
+      className={cn(variantClass, className)}
+      {...props}
+    />
+  );
+}

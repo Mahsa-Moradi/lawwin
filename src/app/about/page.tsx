@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
@@ -21,25 +22,17 @@ export default function AboutPage() {
           داشته باشند.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          <Link
-            href="/deadline-calculator"
-            className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
-          >
+          <ButtonLink href="/deadline-calculator" variant="primary">
             رفتن به محاسبه‌گر موعد
-          </Link>
-          <Link
-            href="/contact"
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-800 no-underline transition-colors hover:bg-zinc-100"
-          >
+          </ButtonLink>
+          <ButtonLink href="/contact" variant="secondary">
             تماس با ما
-          </Link>
+          </ButtonLink>
         </div>
       </header>
 
       <section className="mx-auto mt-8 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-zinc-900">
-          محاسبه‌گر موعد چگونه کار می‌کند؟
-        </h2>
+        <SectionHeading>محاسبه‌گر موعد چگونه کار می‌کند؟</SectionHeading>
         <p className="mt-3 text-sm leading-7 text-zinc-600">
           شما تاریخ شروع مهلت (مثلاً تاریخ ابلاغ) را به شمسی وارد می‌کنید و نوع
           موعد را انتخاب می‌کنید. سیستم بر اساس تعداد روز تعیین‌شده در قانون نمونه،
@@ -49,7 +42,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto mt-6 max-w-3xl rounded-2xl border border-zinc-200 bg-zinc-50 p-6">
-        <h2 className="text-base font-semibold text-zinc-900">سلب مسئولیت</h2>
+        <SectionHeading>سلب مسئولیت</SectionHeading>
         <p className="mt-3 text-sm leading-7 text-zinc-700">
           این ابزار صرفاً راهنماست و ممکن است به‌دلیل جزئیات پرونده، نوع ابلاغ،
           تغییرات قانونی یا کامل نبودن لیست تعطیلات، نتیجه دقیق نباشد. برای اقدام
@@ -58,7 +51,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto mt-6 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-zinc-900">قابلیت‌های آینده</h2>
+        <SectionHeading>قابلیت‌های آینده</SectionHeading>
         <ul className="mt-3 list-inside list-disc space-y-2 text-sm leading-7 text-zinc-600">
           <li>افزودن انواع بیشتر موعد و قوانین دقیق‌تر</li>
           <li>تکمیل و به‌روزرسانی لیست تعطیلات به‌صورت سالانه</li>
