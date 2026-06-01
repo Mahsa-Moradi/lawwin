@@ -133,7 +133,7 @@ export function SearchableDeadlineSelect({
           setIsOpen(true);
         }}
         onKeyDown={handleKeyDown}
-        className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
+        className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 px-3 min-h-11 text-sm text-zinc-900 outline-none transition-colors focus:border-lawwin-navy focus:bg-white focus:ring-2 focus:ring-lawwin-gold/25"
       />
 
       {isOpen ? (

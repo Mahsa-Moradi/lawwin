@@ -1,6 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import {
+  calculatorActionButtonClassName,
+  calculatorActionButtonGoldClassName,
+  calculatorPanelHeaderClassName,
+  calculatorPanelHeaderTitleClassName,
+  calculatorPremiumPanelClassName,
+} from "./calculatorStyles";
 import { CopyResultButton } from "./CopyResultButton";
 import { PrintResultButton } from "./PrintResultButton";
 
@@ -17,33 +24,51 @@ export function DeadlineResultActions({
 }: DeadlineResultActionsProps) {
   return (
     <aside
-      className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm print:hidden"
+      className={`${calculatorPremiumPanelClassName} print:hidden`}
       aria-labelledby="deadline-actions-heading"
     >
-      <div className="border-b border-zinc-200 bg-zinc-50 px-4 py-3 sm:px-5">
+      <div className={calculatorPanelHeaderClassName}>
+        <span
+          className="flex size-8 items-center justify-center rounded-lg bg-lawwin-gold/15 text-lawwin-gold"
+          aria-hidden
+        >
+          <svg
+            className="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v12m6-6H6"
+            />
+          </svg>
+        </span>
         <h3
           id="deadline-actions-heading"
-          className="text-sm font-semibold text-zinc-900"
+          className={calculatorPanelHeaderTitleClassName}
         >
           عملیات
         </h3>
       </div>
 
-      <div className="flex flex-col gap-2 p-4 sm:p-5">
+      <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 sm:p-5 lg:grid-cols-1">
         <CopyResultButton
           textToCopy={copyText}
           label="کپی نتیجه"
-          className="w-full justify-center rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-semibold text-zinc-800 hover:bg-zinc-100"
+          className={calculatorActionButtonClassName}
         />
         <PrintResultButton
           targetId={printTargetId}
-          className="w-full justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 hover:bg-amber-100"
+          className={calculatorActionButtonGoldClassName}
         />
         <Button
           type="button"
           variant="secondary"
           onClick={onRecalculate}
-          className="w-full"
+          className="w-full sm:col-span-2 lg:col-span-1"
         >
           محاسبه مجدد
         </Button>

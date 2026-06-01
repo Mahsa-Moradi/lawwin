@@ -85,7 +85,7 @@ function AffectedHolidays({
   const holidayMap = new Map(holidays.map((h) => [h.id, h]));
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+    <div className="rounded-xl border border-zinc-200/90 bg-zinc-50/80 px-4 py-3.5 text-sm text-zinc-700">
       <p className="font-medium text-zinc-800">تعطیلات رسمی در مسیر جابه‌جایی</p>
       <ul className="mt-2 list-inside list-disc space-y-1">
         {result.affectedHolidayIds.map((id) => {
@@ -144,7 +144,7 @@ export function DeadlineResult({
           <DeadlineCalculationTimeline result={result} />
 
           {result.movedBecauseOfHolidayOrWeekend && result.finalDayReason ? (
-            <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
+            <p className="rounded-xl border border-lawwin-gold/30 bg-lawwin-gold/5 px-4 py-3.5 text-sm leading-relaxed text-zinc-800">
               تاریخ نهایی به دلیل {result.finalDayReason} به اولین روز کاری
               بعد منتقل شد.
             </p>

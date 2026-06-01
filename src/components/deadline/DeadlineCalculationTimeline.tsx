@@ -5,6 +5,11 @@ import {
   toPersianDigits,
 } from "@/lib/deadline/jalaliDisplay";
 import type { CalculationTimelineTone } from "@/lib/deadline/buildCalculationTimeline";
+import {
+  calculatorPanelHeaderClassName,
+  calculatorPanelHeaderTitleClassName,
+  calculatorPremiumPanelClassName,
+} from "./calculatorStyles";
 
 type DeadlineCalculationTimelineProps = {
   result: DeadlineCalculationResult;
@@ -18,19 +23,19 @@ function TimelineIcon({
   isFinal?: boolean;
 }) {
   const base =
-    "flex size-9 shrink-0 items-center justify-center rounded-full ring-2 ring-white";
+    "flex size-9 shrink-0 items-center justify-center rounded-full ring-2 ring-white shadow-sm";
 
   const toneClass: Record<CalculationTimelineTone, string> = {
     neutral: "bg-zinc-100 text-zinc-600 ring-zinc-50",
-    amber: "bg-amber-100 text-amber-800 ring-amber-50",
+    amber: "bg-lawwin-gold/15 text-lawwin-navy-deepest ring-lawwin-gold/20",
     success: "bg-emerald-600 text-white ring-emerald-100",
-    move: "bg-sky-100 text-sky-800 ring-sky-50",
+    move: "bg-lawwin-navy-deepest/10 text-lawwin-navy ring-lawwin-navy/10",
   };
 
   if (isFinal) {
     return (
       <span
-        className={`${base} bg-emerald-600 text-white ring-emerald-100`}
+        className={`${base} bg-lawwin-gold text-lawwin-navy-deepest ring-lawwin-gold/30`}
         aria-hidden
       >
         <svg
@@ -110,9 +115,9 @@ function TimelineIcon({
 }
 
 function dateToneClass(tone: CalculationTimelineTone, isFinal?: boolean): string {
-  if (isFinal) return "text-emerald-700";
-  if (tone === "amber") return "text-amber-800";
-  if (tone === "move") return "text-sky-800";
+  if (isFinal) return "text-lawwin-gold";
+  if (tone === "amber") return "text-lawwin-navy-deepest";
+  if (tone === "move") return "text-lawwin-navy";
   return "text-zinc-900";
 }
 
@@ -122,10 +127,10 @@ export function DeadlineCalculationTimeline({
   const steps = buildCalculationTimeline(result);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-      <div className="flex items-center gap-2 border-b border-zinc-200 bg-zinc-50 px-4 py-3 sm:px-5">
+    <div className={calculatorPremiumPanelClassName}>
+      <div className={calculatorPanelHeaderClassName}>
         <span
-          className="flex size-8 items-center justify-center rounded-lg bg-amber-100 text-amber-800"
+          className="flex size-8 items-center justify-center rounded-lg bg-lawwin-gold/15 text-lawwin-gold"
           aria-hidden
         >
           <svg
@@ -142,7 +147,7 @@ export function DeadlineCalculationTimeline({
             />
           </svg>
         </span>
-        <h3 className="text-sm font-semibold text-zinc-900">روند محاسبه</h3>
+        <h3 className={calculatorPanelHeaderTitleClassName}>روند محاسبه</h3>
       </div>
 
       <ol className="relative px-4 py-5 sm:px-5">
@@ -155,11 +160,11 @@ export function DeadlineCalculationTimeline({
           return (
             <li
               key={step.id}
-              className={`relative flex gap-4 pb-8 last:pb-0 ${isLast ? "" : ""}`}
+              className="relative flex gap-4 pb-8 last:pb-0"
             >
               {!isLast ? (
                 <span
-                  className="absolute start-[1.125rem] top-9 bottom-0 w-px border-s border-dashed border-zinc-300"
+                  className="absolute start-[1.125rem] top-9 bottom-0 w-px border-s border-dashed border-lawwin-gold/35"
                   aria-hidden
                 />
               ) : null}

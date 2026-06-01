@@ -19,6 +19,14 @@ import {
 import type { DeadlineCalculationResult } from "@/types/deadline";
 import { Button } from "@/components/ui/Button";
 import { JalaliDatePickerInput } from "@/components/ui/JalaliDatePickerInput";
+import {
+  calculatorFieldHintClassName,
+  calculatorFieldLabelClassName,
+  calculatorFormCardClassName,
+  calculatorFormCardCompactClassName,
+  calculatorInfoCalloutClassName,
+  calculatorInputClassName,
+} from "./calculatorStyles";
 import { DeadlineResult } from "./DeadlineResult";
 import { SearchableDeadlineSelect } from "./SearchableDeadlineSelect";
 
@@ -225,15 +233,15 @@ export function DeadlineForm() {
 
   const hasResult = result !== null;
   const formClassName = hasResult
-    ? "space-y-5 rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-6"
-    : "space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm";
+    ? calculatorFormCardCompactClassName
+    : calculatorFormCardClassName;
 
   return (
     <div
       className={
         hasResult
-          ? "mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start"
-          : "mt-8"
+          ? "mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start lg:gap-10"
+          : "mt-10"
       }
     >
       <form
@@ -243,12 +251,12 @@ export function DeadlineForm() {
         noValidate
       >
         {hasResult ? (
-          <p className="text-xs font-medium text-zinc-500">
+          <p className="text-xs font-semibold text-lawwin-navy-deepest/70">
             ویرایش ورودی‌ها و محاسبهٔ دوباره
           </p>
         ) : null}
         <div
-          className={`rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950${hasResult ? " text-xs leading-relaxed" : ""}`}
+          className={`${calculatorInfoCalloutClassName}${hasResult ? " text-xs leading-relaxed" : ""}`}
         >
           {isCivilCategory ? (
             <>
@@ -267,18 +275,19 @@ export function DeadlineForm() {
         </div>
 
         <div
-          className={`rounded-lg bg-zinc-50 px-4 py-3 text-sm text-zinc-700${hasResult ? " hidden sm:block" : ""}`}
+          className={`rounded-xl border border-zinc-200/80 bg-zinc-50/60 px-4 py-3 text-sm text-zinc-700${hasResult ? " hidden sm:block" : ""}`}
         >
           تاریخ امروز (شمسی):{" "}
-          <span className="font-mono tabular-nums" dir="ltr">
+          <span className="font-mono font-semibold tabular-nums text-lawwin-navy-deepest" dir="ltr">
             {todayJalali || "-"}
           </span>
         </div>
 
+        <div className="space-y-5">
         <div>
           <label
             htmlFor="category-id"
-            className="block text-sm font-medium text-zinc-800"
+            className={calculatorFieldLabelClassName}
           >
             دسته‌بندی
           </label>
@@ -287,7 +296,7 @@ export function DeadlineForm() {
             name="categoryId"
             value={categoryId}
             onChange={(e) => handleCategoryChange(e.target.value)}
-            className="mt-2 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
+            className={`${calculatorInputClassName} mt-2 max-w-md`}
           >
             {categoriesList.map((c) => (
               <option key={c.id} value={c.id}>
@@ -300,11 +309,11 @@ export function DeadlineForm() {
         <div>
           <label
             htmlFor="start-date"
-            className="block text-sm font-medium text-zinc-800"
+            className={calculatorFieldLabelClassName}
           >
             {isCivilCategory ? "تاریخ ابلاغ (شمسی)" : "تاریخ شروع مهلت (شمسی)"}
           </label>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className={calculatorFieldHintClassName}>
             فرمت: YYYY-MM-DD با ارقام لاتین، مثلاً 1405-03-04
           </p>
           <JalaliDatePickerInput
@@ -314,15 +323,15 @@ export function DeadlineForm() {
             onChange={setStartDate}
             placeholder="1405-03-04"
             className="mt-2"
-            inputClassName="w-full max-w-md rounded-lg border border-zinc-300 bg-white px-10 py-2 font-mono text-sm text-zinc-900 tabular-nums outline-none ring-zinc-900 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
+            inputClassName={`${calculatorInputClassName} max-w-md px-10 font-mono tabular-nums`}
           />
         </div>
 
         <div>
-          <label htmlFor="rule-id" className="block text-sm font-medium text-zinc-800">
+          <label htmlFor="rule-id" className={calculatorFieldLabelClassName}>
             نوع مهلت
           </label>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className={calculatorFieldHintClassName}>
             در کادر زیر تایپ کنید تا از میان مهلت‌های همین دسته جستجو شود.
           </p>
           <SearchableDeadlineSelect
@@ -339,15 +348,16 @@ export function DeadlineForm() {
             </p>
           ) : null}
         </div>
+        </div>
 
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/40 px-4 py-3.5">
           <input
             id="include-holidays"
             name="includeHolidays"
             type="checkbox"
             checked={includeHolidays}
             onChange={(e) => setIncludeHolidays(e.target.checked)}
-            className="mt-1 size-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900"
+            className="mt-1 size-4 rounded border-zinc-300 text-lawwin-navy-deepest focus:ring-lawwin-gold"
           />
           <label htmlFor="include-holidays" className="text-sm text-zinc-800">
             {isCivilCategory
@@ -369,8 +379,8 @@ export function DeadlineForm() {
           </div>
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-2">
-          <Button type="submit" variant="primary">
+        <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-5">
+          <Button type="submit" variant="brand">
             محاسبه
           </Button>
           {!hasResult ? (
