@@ -18,6 +18,7 @@ import {
 } from "@/lib/deadline/dateUtils";
 import type { DeadlineCalculationResult } from "@/types/deadline";
 import { DeadlineResult } from "./DeadlineResult";
+import { SearchableDeadlineSelect } from "./SearchableDeadlineSelect";
 import { JalaliDatePickerInput } from "@/components/ui/JalaliDatePickerInput";
 
 const STORAGE_KEY = "lawwin:deadline:lastCalculation:v2";
@@ -294,20 +295,16 @@ export function DeadlineForm() {
           <label htmlFor="rule-id" className="block text-sm font-medium text-zinc-800">
             نوع مهلت
           </label>
-          <select
+          <p className="mt-1 text-xs text-zinc-500">
+            در کادر زیر تایپ کنید تا از میان مهلت‌های همین دسته جستجو شود.
+          </p>
+          <SearchableDeadlineSelect
             id="rule-id"
             name="ruleId"
+            rules={rulesForCategory}
             value={ruleId}
-            onChange={(e) => setRuleId(e.target.value)}
-            className="mt-2 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
-          >
-            <option value="">انتخاب کنید…</option>
-            {rulesForCategory.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.title} ({r.durationLabel})
-              </option>
-            ))}
-          </select>
+            onChange={setRuleId}
+          />
           {selectedRule?.needsLegalReview ? (
             <p className="mt-2 text-xs text-amber-800">
               این قانون برای بازبینی حقوقی علامت‌گذاری شده است؛ قبل از اقدام
