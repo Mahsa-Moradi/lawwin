@@ -60,7 +60,10 @@ export default function DeadlineCalculatorPage() {
 
       <DeadlineCalculatorTrustSection />
 
-      <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:max-w-none">
+      <section
+        id="faq"
+        className="mx-auto mt-10 max-w-3xl scroll-mt-24 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:max-w-none"
+      >
         <SectionHeading>سوالات پرتکرار</SectionHeading>
         <div className="mt-5 space-y-4">
           {faqs.map((item) => (
