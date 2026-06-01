@@ -131,8 +131,16 @@ export function DeadlineResult({
 
       <DeadlineResultHero result={result} />
 
-      <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-        <div className="space-y-4 lg:col-span-7">
+      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:items-start">
+        <div className="order-1 lg:order-2 lg:col-span-5">
+          <DeadlineResultActions
+            copyText={copyText}
+            printTargetId={RESULT_PRINT_ID}
+            onRecalculate={onRecalculate}
+          />
+        </div>
+
+        <div className="order-2 space-y-4 lg:order-1 lg:col-span-7">
           <DeadlineCalculationTimeline result={result} />
 
           {result.movedBecauseOfHolidayOrWeekend && result.finalDayReason ? (
@@ -143,14 +151,6 @@ export function DeadlineResult({
           ) : null}
 
           <AffectedHolidays result={result} holidays={holidays} />
-        </div>
-
-        <div className="lg:col-span-5">
-          <DeadlineResultActions
-            copyText={copyText}
-            printTargetId={RESULT_PRINT_ID}
-            onRecalculate={onRecalculate}
-          />
         </div>
       </div>
 

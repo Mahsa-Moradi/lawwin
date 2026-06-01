@@ -3,6 +3,10 @@
 :root {
   --background: #fafafa;
   --foreground: #18181b;
+  /* دو FAB (۳.۵rem) + فاصله (۰.۷۵rem) + حاشیه پایین + safe-area */
+  --support-fab-clearance: calc(
+    7.75rem + 1rem + env(safe-area-inset-bottom, 0px)
+  );
 }
 
 @theme inline {
@@ -14,9 +18,14 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  padding-bottom: var(--support-fab-clearance);
 }
 
 @media print {
+  body {
+    padding-bottom: 0;
+  }
+
   header,
   footer,
   nav,

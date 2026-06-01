@@ -97,7 +97,7 @@ export function FloatingSupportWidget() {
   return (
     <div
       ref={rootRef}
-      className="fixed inset-inline-end-4 bottom-4 z-50 flex flex-col items-end gap-3 sm:inset-inline-end-6 sm:bottom-6"
+      className="fixed z-50 flex flex-col items-end gap-3 inset-inline-end-[max(1rem,env(safe-area-inset-inline-end))] bottom-[max(1rem,env(safe-area-inset-bottom))] sm:inset-inline-end-[max(1.5rem,env(safe-area-inset-inline-end))] sm:bottom-[max(1.5rem,env(safe-area-inset-bottom))]"
     >
       {menuOpen ? (
         <div

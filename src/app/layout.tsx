@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Vazirmatn } from "next/font/google";
 import { FloatingSupportWidget } from "@/components/layout/FloatingSupportWidget";
 import { Footer } from "@/components/layout/Footer";
@@ -10,6 +10,12 @@ const vazirmatn = Vazirmatn({
   variable: "--font-vazirmatn",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: {

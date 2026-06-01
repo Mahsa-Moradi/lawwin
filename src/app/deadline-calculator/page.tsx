@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DeadlineCalculatorTrustSection } from "@/components/deadline/DeadlineCalculatorTrustSection";
 import { DeadlineFormClient } from "./DeadlineFormClient";
 
 export const metadata: Metadata = {
@@ -58,6 +59,8 @@ export default function DeadlineCalculatorPage() {
       </header>
 
       <DeadlineFormClient />
+
+      <DeadlineCalculatorTrustSection />
 
       <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:max-w-none">
         <h2 className="text-lg font-semibold text-zinc-900">
