@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ContactEmailLinks } from "@/components/layout/ContactEmailLinks";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/siteConfig";
@@ -44,18 +45,15 @@ export default function ContactPage() {
             </a>
           </p>
         </div>
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:col-span-2">
           <h2 className="text-base font-semibold text-zinc-900">ایمیل</h2>
           <p className="mt-2 text-sm text-zinc-600">
-            آدرس ایمیل (نمونه):{" "}
-            <span className="font-mono text-zinc-900" dir="ltr">
-              {siteConfig.contactEmail}
-            </span>
+            برای ارسال پیام، روی یکی از ایمیل‌های زیر کلیک کنید:
           </p>
-          <p className="mt-2 text-xs leading-relaxed text-zinc-500">
-            توجه: این اطلاعات فعلاً نمونه است و ممکن است در نسخه‌های بعدی تغییر
-            کند.
-          </p>
+          <ContactEmailLinks
+            className="mt-3"
+            linkClassName="text-zinc-900 underline-offset-2 hover:underline"
+          />
         </div>
       </section>
 

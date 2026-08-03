@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AboutContact } from "@/components/about/AboutContact";
 import { AboutCta } from "@/components/about/AboutCta";
 import { AboutHero } from "@/components/about/AboutHero";
 import { AboutHowItWorks } from "@/components/about/AboutHowItWorks";
@@ -22,6 +23,7 @@ export default function AboutPage() {
       <AboutWhatItDoes />
       <AboutLimitations />
       <AboutTrustMetrics />
+      <AboutContact />
       <AboutCta />
     </div>
   );

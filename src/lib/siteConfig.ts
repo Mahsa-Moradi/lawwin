@@ -5,6 +5,15 @@
 const WHATSAPP_MESSAGE =
   "سلام، برای مشاوره حقوقی از سایت لاوین پیام می‌دهم";
 
+export const contactEmails = [
+  "info@lawwinint.com",
+  "admin@lawwinint.com",
+  "support@lawwinint.com",
+  "legal@lawwinint.com",
+  "contact@lawwinint.com",
+  "hello@lawwinint.com",
+] as const;
+
 export const siteConfig = {
   /** برای لینک tel: فقط ارقام و + */
   phoneTel: "+989122401423",
@@ -15,6 +24,6 @@ export const siteConfig = {
   /** خالی = دکمهٔ بله در ویجت نمایش داده نمی‌شود */
   baleUrl: "",
   siteName: "لاوین",
-  contactEmail: "example@lawwin.ir",
+  contactEmails,
   contactFormActive: false,
 } as const;

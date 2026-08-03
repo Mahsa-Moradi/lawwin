@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContactEmailLinks } from "@/components/layout/ContactEmailLinks";
 import { siteConfig } from "@/lib/siteConfig";
 import { ScalesIcon } from "./icons";
 
@@ -22,7 +23,7 @@ export function Footer() {
           <div className="lg:col-span-5">
             <Link
               href="/"
-              className="inline-flex items-center gap-2.5 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lawwin-gold"
+              className="inline-flex items-center gap-2.5 no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lawwin-gold"
             >
               <span className="flex size-10 items-center justify-center rounded-xl bg-lawwin-gold/15 text-lawwin-gold ring-1 ring-lawwin-gold/30">
                 <ScalesIcon className="size-6" />
@@ -77,9 +78,10 @@ export function Footer() {
                 <span className="block text-xs text-lawwin-muted-on-navy/80">
                   ایمیل
                 </span>
-                <span className="font-mono text-lawwin-on-navy" dir="ltr">
-                  {siteConfig.contactEmail}
-                </span>
+                <ContactEmailLinks
+                  className="mt-1"
+                  linkClassName="font-medium text-lawwin-on-navy hover:text-lawwin-gold"
+                />
               </li>
             </ul>
           </div>
