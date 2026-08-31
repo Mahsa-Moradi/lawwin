@@ -1,10 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   brandOutlineButtonClassName,
   brandPrimaryButtonClassName,
 } from "@/components/ui/brandButtonStyles";
 import { cn } from "@/components/ui/cn";
-import { HomeHeroIllustration } from "./HomeHeroIllustration";
 import { PageContainer } from "./homeLayout";
 
 export function HomeHero() {
@@ -76,9 +76,16 @@ export function HomeHero() {
               className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-lawwin-gold/20 blur-2xl"
               aria-hidden
             />
-            <div className="relative rounded-[1.75rem] bg-gradient-to-b from-white/10 to-white/5 p-1 shadow-2xl shadow-black/40 ring-1 ring-white/15">
-              <div className="overflow-hidden rounded-[1.5rem] bg-lawwin-navy/80 ring-1 ring-lawwin-gold/25">
-                <HomeHeroIllustration />
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-b from-white/10 to-white/5 p-1 shadow-2xl shadow-black/40 ring-1 ring-white/15">
+              <div className="overflow-hidden rounded-[1.5rem] ring-1 ring-lawwin-gold/25">
+                <Image
+                  src="/header1.png"
+                  alt="چکش قضاوت روی کتاب قانون"
+                  width={1536}
+                  height={1024}
+                  priority
+                  className="h-auto w-full object-cover object-center"
+                />
               </div>
             </div>
           </div>
